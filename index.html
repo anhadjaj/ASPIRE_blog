@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ASPIRE Smart Glasses — Anhad Jaj | AI That Sees, Hears & Acts</title>
+<meta name="author" content="Anhad Jaj">
+<meta name="description" content="ASPIRE is Anhad Jaj's custom-built AI smart glasses project: a wearable computer that can listen, see, understand context, answer questions, take photos, and interact with digital tools through VIPER.">
+<meta name="keywords" content="Anhad Jaj, Anhad Singh Jaj, ASPIRE smart glasses, VIPER AI, AI glasses, smart glasses, wearable AI, computer vision, edge AI, ESP32-S3, AI assistant, multimodal AI">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://hybrid-xr.onrender.com/aspire">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="ASPIRE — AI That Lives Where You Look">
+<meta property="og:description" content="A personal AI wearable built by Anhad Jaj. ASPIRE gives VIPER a camera, microphone, voice, and a view of the world.">
+<meta property="og:url" content="https://hybrid-xr.onrender.com/aspire">
+<meta property="og:site_name" content="Anhad Jaj">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ASPIRE — AI That Lives Where You Look">
+<meta name="twitter:description" content="Anhad Jaj's custom AI smart glasses powered by VIPER.">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"TechArticle",
+  "headline":"ASPIRE — AI That Lives Where You Look",
+  "description":"A custom-built multimodal AI smart glasses platform engineered by Anhad Jaj.",
+  "author":{"@type":"Person","name":"Anhad Jaj"},
+  "about":["Artificial Intelligence","Smart Glasses","Wearable Computing","Computer Vision","Voice AI"],
+  "keywords":"ASPIRE, VIPER, Anhad Jaj, smart glasses, wearable AI"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --bg:#070809;--surface:#101215;--surface2:#15181c;--line:#24282e;
+ --text:#f5f7fa;--muted:#9299a3;--soft:#c8cdd4;--accent:#7aa7ff;
+ --accent2:#b39aff;--green:#77d7b1;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.container{max-width:1180px;margin:auto;padding:0 28px}
+nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(7,8,9,.78);backdrop-filter:blur(22px);border-bottom:1px solid rgba(255,255,255,.07)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+.logo{text-decoration:none;font-weight:800;letter-spacing:.18em;font-size:15px}
+.logo span{color:var(--accent)}
+.navlinks{display:flex;gap:28px}
+.navlinks a{text-decoration:none;color:var(--muted);font-size:13px}
+.navlinks a:hover{color:white}
+.author{font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.author b{color:white}
+section{padding:110px 0}
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:110px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(77,119,255,.14),transparent 68%);right:-220px;top:80px;pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:70px;align-items:center}
+.eyebrow{display:inline-flex;border:1px solid var(--line);background:rgba(255,255,255,.025);padding:7px 12px;border-radius:999px;color:var(--muted);font:11px "JetBrains Mono",monospace;letter-spacing:.08em;margin-bottom:28px}
+.project-name{font-size:clamp(64px,9vw,118px);font-weight:800;letter-spacing:-.075em;line-height:.88;margin-bottom:10px;color:white}
+.aspire-expansion{font:500 12px "JetBrains Mono",monospace;color:#8f97a2;letter-spacing:.06em;margin-bottom:30px}
+h1{font-size:clamp(52px,7vw,92px);line-height:.98;letter-spacing:-.065em;max-width:900px}
+.gradient{background:linear-gradient(120deg,#fff 10%,#8db4ff 52%,#b99cff);-webkit-background-clip:text;color:transparent}
+.lead{font-size:20px;color:var(--soft);max-width:720px;margin-top:28px;line-height:1.65}
+ .byline{margin-top:28px;color:var(--muted);font-size:14px}
+.social{display:flex;gap:18px;margin-top:14px}
+.social a{color:var(--muted);text-decoration:none;font-size:13px;border-bottom:1px solid transparent;padding-bottom:2px}
+.social a:hover{color:white;border-bottom-color:var(--accent)}
+
+.byline strong{color:white}
+.hero-orb{height:470px;display:flex;align-items:center;justify-content:center;position:relative}
+.orb{width:260px;height:260px;border:1px solid rgba(125,166,255,.35);border-radius:50%;position:relative;box-shadow:0 0 100px rgba(82,125,255,.12)}
+.orb:before{content:"";position:absolute;inset:40px;border-radius:50%;background:radial-gradient(circle,#fff 0,#9ebfff 5%,#315fbf 25%,rgba(30,58,120,.4) 50%,transparent 72%);box-shadow:0 0 70px rgba(82,137,255,.65)}
+.orb:after{content:"VIPER";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font:600 11px "JetBrains Mono";letter-spacing:.25em;color:white}
+.orbit{position:absolute;width:340px;height:340px;border:1px dashed rgba(255,255,255,.14);border-radius:50%;animation:spin 18s linear infinite}
+.dot{position:absolute;width:8px;height:8px;border-radius:50%;background:#a9c7ff;top:-4px;left:50%;box-shadow:0 0 18px #7aa7ff}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.kicker{font:600 11px "JetBrains Mono";color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+h2{font-size:clamp(36px,5vw,62px);letter-spacing:-.05em;line-height:1.04;max-width:850px}
+h3{font-size:25px;letter-spacing:-.025em;margin-bottom:12px}
+p{color:var(--muted);font-size:17px;margin-bottom:18px}
+.story{max-width:850px}
+.story p{font-size:19px;line-height:1.85}
+.story strong{color:var(--text)}
+.pull{font-size:32px!important;line-height:1.3!important;color:white!important;letter-spacing:-.035em;margin:50px 0}
+.divider{height:1px;background:var(--line);margin:30px 0}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:55px}
+.stat{background:var(--bg);padding:28px}
+.stat b{font-size:25px;display:block;margin-bottom:5px}
+.stat span{font-size:13px;color:var(--muted)}
+
+.product-tabs{margin-top:55px;border-top:1px solid var(--line)}
+.tabbar{display:flex;overflow-x:auto;border-bottom:1px solid var(--line)}
+.tab{border:0;background:none;color:var(--muted);padding:18px 24px;cursor:pointer;font:500 13px Inter;white-space:nowrap}
+.tab.active{color:white;box-shadow:inset 0 -2px var(--accent)}
+.panel{display:none;padding:50px 10px}
+.panel.active{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.feature-list{display:grid;gap:16px;margin-top:25px}
+.feature{border:1px solid var(--line);background:var(--surface);padding:22px;border-radius:14px}
+.feature b{display:block;margin-bottom:6px}
+.feature span{font-size:14px;color:var(--muted)}
+
+.usage{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:45px}
+.use{background:linear-gradient(145deg,var(--surface),#0c0e10);border:1px solid var(--line);padding:32px;border-radius:18px;min-height:220px}
+.use .num{font:600 11px "JetBrains Mono";color:var(--accent);margin-bottom:30px}
+.use h3{font-size:28px}
+
+.tech{background:#0b0d0f;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tech .tabbar{background:#0b0d0f}
+.tech-copy{max-width:900px}
+.tech-copy p{font-size:16px}
+.techgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:35px}
+.techcard{border:1px solid var(--line);padding:24px;border-radius:14px;background:#0e1013}
+.techcard b{font:600 11px "JetBrains Mono";color:var(--accent);display:block;margin-bottom:12px}
+.techcard p{font-size:14px;margin:0}
+
+.timeline{margin-top:45px;border-left:1px solid var(--line)}
+.step{padding:0 0 45px 35px;position:relative}
+.step:before{content:"";position:absolute;left:-5px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.step h3{font-size:20px}
+.step p{max-width:720px;font-size:15px}
+
+.quote{padding:80px 0;text-align:center}
+.quote blockquote{font-size:clamp(30px,5vw,58px);letter-spacing:-.045em;line-height:1.12;max-width:1000px;margin:auto}
+.quote cite{display:block;margin-top:24px;color:var(--muted);font-style:normal;font-size:13px}
+
+footer{border-top:1px solid var(--line);padding:50px 0;color:var(--muted);font-size:13px}
+.footer{display:flex;justify-content:space-between;gap:30px}
+.mono{font-family:"JetBrains Mono",monospace}
+
+@media(max-width:850px){
+ .navlinks{display:none}.hero-grid,.panel-grid{grid-template-columns:1fr}
+ .orb{width:190px;height:190px}.orbit{width:250px;height:250px}
+ .stats,.usage,.techgrid{grid-template-columns:1fr}
+ section{padding:80px 0}.story p{font-size:17px}.pull{font-size:27px!important}
+}
+</style>
+</head>
+
+<body>
+<nav>
+ <div class="container nav">
+  <a class="logo" href="#">ASPIRE<span>.</span></a>
+  <div class="navlinks">
+   <a href="#story">The idea</a>
+   <a href="#experience">Experience</a>
+   <a href="#intelligence">Intelligence</a>
+   <a href="#technology">Technology</a>
+   <a href="#future">What's next</a>
+  </div>
+  <div class="author">BY <b>ANHAD JAJ</b></div>
+ </div>
+</nav>
+
+<main>
+<section class="hero">
+ <div class="container hero-grid">
+  <div>
+   <div class="eyebrow">A PERSONAL AI WEARABLE / BY ANHAD JAJ / 2026</div>
+   <div class="project-name">ASPIRE</div>
+   <div class="aspire-expansion">(Anhad's Smart Personal Intelligence and Reasoning Entity)</div>
+   <h1>Smart glasses with a <span class="gradient">point of view.</span></h1>
+   <p class="lead">AI that sees, hears, understands and acts — from where you already are.</p>
+   <p class="lead" style="font-size:17px;max-width:650px">I wanted AI to stop being something I reach for and start being something that stays with me. So I built a wearable interface around that idea.</p>
+   <div class="byline">Designed, engineered and iterated by <strong>Anhad Jaj</strong>.</div>
+   <div class="social">
+    <a href="https://www.linkedin.com/in/anhad-jaj-519720282" target="_blank" rel="noopener" aria-label="LinkedIn">LinkedIn</a>
+    <a href="https://x.com/JajAnhad" target="_blank" rel="noopener" aria-label="X / Twitter">Twitter/X</a>
+    <a href="mailto:lionel.anhad@gmail.com" aria-label="Email">Email</a>
+   </div>
+  </div>
+  <div class="hero-orb">
+   <div class="orbit"><div class="dot"></div></div>
+   <div class="orb"></div>
+  </div>
+ </div>
+</section>
+
+<section id="story">
+ <div class="container">
+  <div class="kicker">01 / THE IDEA</div>
+  <h2>We've spent years making computers smaller. I wanted to make them disappear.</h2>
+  <div class="story" style="margin-top:42px">
+   <p>Every time we want help from an AI today, we perform the same little ritual: reach for a phone, unlock it, find the right app, type something, attach something, wait, read, and then put the phone away.</p>
+   <p>It works. But it is still a <strong>conversation with a screen</strong>.</p>
+   <p>I kept thinking about the opposite. What if the computer already knew where I was looking? What if I could just ask a question while walking, working, travelling, building something, or standing in front of something I didn't understand?</p>
+   <p>That question became <strong>ASPIRE</strong>.</p>
+   <p class="pull">Not a phone on your face. A new interface for intelligence.</p>
+   <p>The idea was simple enough to explain in one sentence and difficult enough to keep me busy for months: <strong>build glasses that can hear me, see what I see, understand what I mean, and respond without asking me to reach for a screen.</strong></p>
+   <p>There was no single “smart glasses” platform waiting to be assembled. I had to work from the bottom up — camera, microphone, audio, wake detection, connectivity, AI orchestration, tool execution and the interaction model itself.</p>
+  </div>
+
+  <div class="stats">
+   <div class="stat"><b>1 camera</b><span>A first-person view of the world.</span></div>
+   <div class="stat"><b>Voice-first</b><span>Talk naturally instead of typing.</span></div>
+   <div class="stat"><b>VIPER</b><span>The intelligence behind ASPIRE.</span></div>
+  </div>
+ </div>
+</section>
+
+<section id="experience">
+ <div class="container">
+  <div class="kicker">02 / THE EXPERIENCE</div>
+  <h2>It should feel like talking to someone — not operating a machine.</h2>
+  <div class="product-tabs">
+   <div class="tabbar">
+    <button class="tab active" onclick="showTab('experience','listen')">LISTEN</button>
+    <button class="tab" onclick="showTab('experience','see')">SEE</button>
+    <button class="tab" onclick="showTab('experience','understand')">UNDERSTAND</button>
+    <button class="tab" onclick="showTab('experience','act')">ACT</button>
+   </div>
+
+   <div class="panel active" id="experience-listen">
+    <div class="panel-grid">
+     <div><h3>Just talk.</h3><p>You shouldn't have to learn a command language to use your own assistant. ASPIRE is designed around natural conversation: ask something, describe something, or tell VIPER what you want to happen.</p><p>The system listens for speech instead of keeping a constant stream of audio running, helping reduce unnecessary processing, network traffic and power consumption.</p></div>
+     <div class="feature-list"><div class="feature"><b>Wake → listen → respond</b><span>A deliberate interaction loop instead of an always-on cloud microphone.</span></div><div class="feature"><b>Voice-first output</b><span>Responses are designed to be heard, not read.</span></div></div>
+    </div>
+   </div>
+
+   <div class="panel" id="experience-see">
+    <div class="panel-grid">
+     <div><h3>Your point of view becomes context.</h3><p>The camera changes the relationship between you and the AI. Instead of describing a thing and hoping the model understands, you can let it look at the thing with you.</p><p>Read a sign. Understand a screen. Ask about an object. Translate something in front of you. The image is not an attachment — it is part of the conversation.</p></div>
+     <div class="feature-list"><div class="feature"><b>First-person vision</b><span>The camera sees from the same perspective as the wearer.</span></div><div class="feature"><b>Visual translation</b><span>Ask VIPER to read or translate visible text.</span></div><div class="feature"><b>Focused answers</b><span>The system is instructed to focus on the subject that actually matters.</span></div></div>
+    </div>
+   </div>
+
+   <div class="panel" id="experience-understand">
+    <div class="panel-grid">
+     <div><h3>The interesting part isn't seeing. It's knowing why you're showing it.</h3><p>A camera can capture a picture. An assistant needs to understand the question around that picture.</p><p>VIPER combines your spoken intent with the visual context so the same camera can support completely different interactions. “What is this?” is different from “Translate this,” which is different from “Does this code look right?”</p></div>
+     <div class="feature-list"><div class="feature"><b>Multimodal interaction</b><span>Voice and vision work together instead of living as separate features.</span></div><div class="feature"><b>Context-aware reasoning</b><span>The model is guided to answer the user's actual question rather than narrating everything in frame.</span></div></div>
+    </div>
+   </div>
+
+   <div class="panel" id="experience-act">
+    <div class="panel-grid">
+     <div><h3>And sometimes, the right answer isn't an answer.</h3><p>VIPER can turn an intention into an action. Ask to take a picture and the system can capture it. Ask about information in connected services and the assistant can use the appropriate tool rather than pretending it already knows.</p><p>That is the step from chatbot to assistant: <strong>understanding what should happen next.</strong></p></div>
+     <div class="feature-list"><div class="feature"><b>Take a photo</b><span>Trigger the camera from a natural voice request.</span></div><div class="feature"><b>Digital tools</b><span>Connect the assistant to services such as email, calendar and cloud storage.</span></div><div class="feature"><b>Action-aware responses</b><span>Complete the task first, then respond naturally.</span></div></div>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section>
+ <div class="container">
+  <div class="kicker">03 / WHAT IT CAN DO</div>
+  <h2>Small interactions. Big difference.</h2>
+  <div class="usage">
+   <div class="use"><div class="num">01 / LOOK</div><h3>“What am I looking at?”</h3><p>Point your glasses at something unfamiliar and ask. VIPER uses the camera as its visual context.</p></div>
+   <div class="use"><div class="num">02 / TRANSLATE</div><h3>“Translate this.”</h3><p>Read visible text without pulling out a phone or manually taking a picture.</p></div>
+   <div class="use"><div class="num">03 / CAPTURE</div><h3>“Take a picture.”</h3><p>The request becomes an action: capture the scene instead of replying with another paragraph.</p></div>
+   <div class="use"><div class="num">04 / CONNECT</div><h3>“What do I have today?”</h3><p>With connected tools, VIPER can retrieve useful information from services you already use.</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="quote">
+ <div class="container">
+  <blockquote>“The goal was never to put an AI inside a pair of glasses. The goal was to make the glasses feel like the most natural place for an AI to live.”</blockquote>
+  <cite>— Anhad Jaj, on ASPIRE</cite>
+ </div>
+</section>
+
+<section id="intelligence">
+ <div class="container">
+  <div class="kicker">04 / THE INTELLIGENCE</div>
+  <h2>ASPIRE is the body. VIPER is the mind.</h2>
+  <div class="story" style="margin-top:35px">
+   <p>ASPIRE is the physical system: the frame, camera, microphone, audio hardware and embedded controller that sit with you in the real world.</p>
+   <p><strong>VIPER</strong> is the intelligence layer. Its job isn't simply to generate text. It decides what kind of response the user needs, whether visual context matters, whether an external tool should be called, and when an action should happen instead of another sentence being spoken.</p>
+   <p>That distinction became important as the project grew. A wearable computer has very different constraints from a laptop. Memory is limited. Power matters. Network calls add latency. Audio needs to feel conversational. And the user should never need to think about any of that.</p>
+   <p class="pull">All the complexity should disappear behind one very simple interface: <em>talk to it.</em></p>
+  </div>
+ </div>
+</section>
+
+<section id="technology" class="tech">
+ <div class="container">
+  <div class="kicker">05 / FOR THE CURIOUS</div>
+  <h2>The engineering underneath.</h2>
+  <p style="max-width:800px;margin-top:25px">If the first half is the story of what ASPIRE feels like, this is the part for the people who want to know how I actually made it work.</p>
+
+  <div class="product-tabs">
+   <div class="tabbar">
+    <button class="tab active" onclick="showTab('tech','hardware')">HARDWARE</button>
+    <button class="tab" onclick="showTab('tech','audio')">AUDIO</button>
+    <button class="tab" onclick="showTab('tech','vision')">VISION</button>
+    <button class="tab" onclick="showTab('tech','agent')">AI & TOOLS</button>
+    <button class="tab" onclick="showTab('tech','architecture')">ARCHITECTURE</button>
+   </div>
+
+   <div class="panel active" id="tech-hardware">
+    <div class="tech-copy"><h3>A tiny computer with very non-tiny ambitions.</h3><p>The current prototype uses a Seeed Studio XIAO ESP32-S3 Sense as the embedded core. It provides the camera and microphone interface while keeping the physical system compact enough to experiment with as a wearable.</p><p>The challenge is not simply getting each component to work. It is making them work together without turning the glasses into a hot, slow development board strapped to your face.</p></div>
+    <div class="techgrid"><div class="techcard"><b>CONTROLLER</b><p>Seeed XIAO ESP32-S3 Sense with embedded PSRAM.</p></div><div class="techcard"><b>CAMERA</b><p>OV2640 camera used for first-person visual input.</p></div><div class="techcard"><b>AUDIO</b><p>Digital microphone input with an I2S audio path and dedicated amplifier for output.</p></div></div>
+   </div>
+
+   <div class="panel" id="tech-audio">
+    <div class="tech-copy"><h3>Listening only when listening matters.</h3><p>Continuous audio streaming is expensive. The firmware therefore uses local voice-activity detection based on RMS energy to identify when speech is actually happening.</p><p>The current implementation processes audio in blocks, uses a loudness threshold and trailing silence to determine the end of a turn, and places a hard cap on recording time. That turns “always listening” into a much more controlled interaction loop.</p></div>
+    <div class="techgrid"><div class="techcard"><b>LOCAL VAD</b><p>RMS-based speech detection runs before network transmission.</p></div><div class="techcard"><b>TURN CONTROL</b><p>Speech debounce and trailing silence prevent accidental short triggers.</p></div><div class="techcard"><b>FAIL-SAFE</b><p>A maximum recording duration prevents uncontrolled buffer growth.</p></div></div>
+   </div>
+
+   <div class="panel" id="tech-vision">
+    <div class="tech-copy"><h3>The camera is not an accessory. It is a sensor for context.</h3><p>The OV2640 frame is captured into available memory and passed through the vision pipeline. Because the physical camera placement introduces an orientation challenge, the system explicitly accounts for the sensor's mounted orientation when interpreting images.</p><p>Resolution and image handling are deliberately constrained around the latency and memory budget of the wearable rather than simply maximizing image quality.</p></div>
+    <div class="techgrid"><div class="techcard"><b>CAPTURE</b><p>Camera frames are handled directly by the embedded system.</p></div><div class="techcard"><b>ORIENTATION</b><p>Sensor configuration and model-level instructions compensate for the physical mounting geometry.</p></div><div class="techcard"><b>VISION RULES</b><p>VIPER is instructed to avoid inventing visual details and to focus on the requested subject.</p></div></div>
+   </div>
+
+   <div class="panel" id="tech-agent">
+    <div class="tech-copy"><h3>From “answer me” to “do this.”</h3><p>The assistant is given a set of executable tools alongside the user's request. If the model determines that a tool is appropriate, it returns a structured action which the embedded system can execute.</p><p>This is what lets the same voice interface move between conversation and action: retrieving information, interacting with connected services, or triggering a camera operation.</p></div>
+    <div class="techgrid"><div class="techcard"><b>TOOL CALLING</b><p>Structured model outputs map user intent to executable functions.</p></div><div class="techcard"><b>CONNECTED SERVICES</b><p>Prototype integrations include email, calendar and cloud-storage retrieval.</p></div><div class="techcard"><b>LOCAL ACTIONS</b><p>Hardware operations such as photo capture can be short-circuited locally.</p></div></div>
+   </div>
+
+   <div class="panel" id="tech-architecture">
+    <div class="tech-copy"><h3>The hard part was deciding what the glasses should <em>not</em> do.</h3><p>An ESP32-S3 is powerful for its size, but it is not a miniature data centre. Instead of forcing every AI workload onto the frame, ASPIRE treats the glasses as a fast sensory endpoint and distributes heavier reasoning to external compute.</p><p>This separation keeps the wearable focused on what it is uniquely good at: sensing the world, capturing the user's intent and responding quickly. The architecture can then evolve independently as the AI and orchestration layer become more capable.</p></div>
+    <div class="techgrid"><div class="techcard"><b>EDGE</b><p>Wake detection, audio capture, camera control and hardware actions.</p></div><div class="techcard"><b>REASONING</b><p>Large-model inference handles language, multimodal understanding and tool selection.</p></div><div class="techcard"><b>ORCHESTRATION</b><p>A separation between sensing and intelligence leaves room for a more modular MCP-based architecture.</p></div></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="future">
+ <div class="container">
+  <div class="kicker">06 / WHAT'S NEXT</div>
+  <h2>This is a prototype. That's the point.</h2>
+  <div class="story" style="margin-top:38px">
+   <p>ASPIRE is not being presented as a finished consumer product. It is a working exploration of what happens when a multimodal AI is given a body, a point of view and a voice.</p>
+   <p>The next iterations are about making the system feel less like a collection of impressive demos and more like a coherent product: faster interaction, cleaner hardware, better power management, stronger phone connectivity, more modular tool orchestration and a tighter loop between what the wearer sees and what the assistant understands.</p>
+  </div>
+  <div class="timeline">
+   <div class="step"><h3>Make the interaction faster.</h3><p>Reduce the distance between speaking, understanding and hearing the response.</p></div>
+   <div class="step"><h3>Make the architecture modular.</h3><p>Move toward a cleaner orchestration layer and MCP-style tool connectivity so new capabilities do not require rebuilding the entire wearable.</p></div>
+   <div class="step"><h3>Make the hardware disappear.</h3><p>Shrink the electronics, improve the audio experience and keep the system comfortable enough that the technology stops being the thing you notice.</p></div>
+   <div class="step"><h3>Keep building.</h3><p>The best version of ASPIRE is probably not the one on this page. That's exactly why the project continues.</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="quote">
+ <div class="container">
+  <blockquote>From a sketch of an idea to a pair of glasses that can actually see, hear and respond.</blockquote>
+  <cite>ASPIRE / A project by Anhad Jaj</cite>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="container footer">
+  <div>ASPIRE — AI Smart Glasses</div>
+  <div class="mono">ARCHITECTURE: ASPIRE / INTELLIGENCE: VIPER / ENGINEER: ANHAD JAJ</div>
+ </div>
+</footer>
+
+<script>
+function showTab(group,id){
+  const prefix=group+"-";
+  document.querySelectorAll('[id^="'+prefix+'"]').forEach(el=>el.classList.remove('active'));
+  document.getElementById(prefix+id).classList.add('active');
+  const tabs=document.querySelectorAll('#'+group+' .tab');
+  const labels=['listen','see','understand','act'];
+  if(group==='experience'){
+    tabs.forEach((t,i)=>t.classList.toggle('active',labels[i]===id));
+  }else{
+    const techLabels=['hardware','audio','vision','agent','architecture'];
+    tabs.forEach((t,i)=>t.classList.toggle('active',techLabels[i]===id));
+  }
+}
+
+
+</script>
+</body>
+</html>
