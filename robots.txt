@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aspire-i8xy.onrender.com/sitemap.xml
