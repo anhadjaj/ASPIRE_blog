@@ -59,6 +59,76 @@ nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(7,8,9,.7
   width: auto;
   display: block;
 }
+/* --- Personal Intelligence Feature Scroller --- */
+.features-scroller-section {
+  padding: 80px 0;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--bg), #0c0e12);
+  overflow: hidden; /* Prevents horizontal page overflow */
+}
+.scroller-header {
+  margin-bottom: 40px;
+  text-align: center; /* Keeps the heading nicely centered */
+}
+.scroller-header h2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+.scroller-header p {
+  margin-left: auto;
+  margin-right: auto;
+}
+.features-track-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 20px;
+  padding-left: 28px; /* Aligns the first card flush with the left screen padding */
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.features-track-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.features-track-wrapper::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+.features-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding-right: 28px; /* Ensures space at the end of the scroll */
+}
+.feature-card {
+  width: 320px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(122, 167, 255, 0.4);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+.feature-icon {
+  font-size: 32px;
+  margin-bottom: 18px;
+  display: inline-block;
+}
+.feature-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: white;
+  letter-spacing: -0.02em;
+}
+.feature-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
 .navlinks a{text-decoration:none;color:var(--muted);font-size:13px}
 .navlinks a:hover{color:white}
 .author{font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
@@ -268,6 +338,69 @@ footer{border-top:1px solid var(--line);padding:50px 0;color:var(--muted);font-s
   </div>
  </div>
 </section>
+<section class="features-scroller-section">
+ <div class="container">
+  <div class="kicker" style="text-align: center;">PERSONAL INTELLIGENCE</div>
+  <div class="scroller-header">
+   <h2>Everything connected. Right at your ear.</h2>
+   <p style="margin-top:12px; max-width:700px;">VIPER isn't just a chatbot; it's a fully integrated reasoning agent wired into the services you use every single day.</p>
+  </div>
+ </div>
+
+ <div class="features-track-wrapper">
+  <div class="features-track">
+   
+   <div class="feature-card">
+    <div class="feature-icon">🗺️</div>
+    <h3>Live Navigation</h3>
+    <p>Real-time traffic ETAs, distances, and route summaries via Google Maps without looking at a screen.</p>
+   </div>
+
+   <div class="feature-card">
+    <div class="feature-icon">✉️</div>
+    <h3>Gmail Assistant</h3>
+    <p>Instantly reads your latest unread emails, parses senders and subjects, and sends replies hands-free.</p>
+   </div>
+
+   <div class="feature-card">
+    <div class="feature-icon">📅</div>
+    <h3>Google Calendar</h3>
+    <p>Checks your upcoming schedule, summarizes your day, and creates new calendar events using natural speech.</p>
+   </div>
+
+   <div class="feature-card">
+    <div class="feature-icon">🎵</div>
+    <h3>Spotify Control</h3>
+    <p>Play, pause, skip tracks, check what's currently playing, toggle shuffle, and adjust volume seamlessly.</p>
+   </div>
+
+   <div class="feature-card">
+    <div class="feature-icon">🌤️</div>
+    <h3>Weather & AQI</h3>
+    <p>Pulls live Google Weather data, Air Quality Index (AQI) safety levels, and seasonal pollen forecasts.</p>
+   </div>
+
+   <div class="feature-card">
+    <div class="feature-icon">📂</div>
+    <h3>Google Drive Search</h3>
+    <p>Searches through your cloud documents by keyword name and reads their text content directly to you.</p>
+   </div>
+
+   <div class="feature-card">
+    <div class="feature-icon">📸</div>
+    <h3>Vision & Telegram</h3>
+    <p>Capture high-res photos from your glasses and instantly push images or text translations to your phone.</p>
+   </div>
+
+   <div class="feature-card">
+    <div class="feature-icon">📰</div>
+    <h3>Top News Headlines</h3>
+    <p>Fetches breaking global headlines and top news stories across categories whenever you want a briefing.</p>
+   </div>
+
+  </div>
+ </div>
+</section>
 
 <section class="quote">
  <div class="container">
@@ -328,23 +461,6 @@ footer{border-top:1px solid var(--line);padding:50px 0;color:var(--muted);font-s
     <div class="tech-copy"><h3>The hard part was deciding what the glasses should <em>not</em> do.</h3><p>An ESP32-S3 is powerful for its size, but it is not a miniature data centre. Instead of forcing every AI workload onto the frame, ASPIRE treats the glasses as a fast sensory endpoint and distributes heavier reasoning to external compute.</p><p>This separation keeps the wearable focused on what it is uniquely good at: sensing the world, capturing the user's intent and responding quickly. The architecture can then evolve independently as the AI and orchestration layer become more capable.</p></div>
     <div class="techgrid"><div class="techcard"><b>EDGE</b><p>Wake detection, audio capture, camera control and hardware actions.</p></div><div class="techcard"><b>REASONING</b><p>Large-model inference handles language, multimodal understanding and tool selection.</p></div><div class="techcard"><b>ORCHESTRATION</b><p>A separation between sensing and intelligence leaves room for a more modular MCP-based architecture.</p></div></div>
    </div>
-  </div>
- </div>
-</section>
-
-<section id="future">
- <div class="container">
-  <div class="kicker">06 / WHAT'S NEXT</div>
-  <h2>This is a prototype. That's the point.</h2>
-  <div class="story" style="margin-top:38px">
-   <p>ASPIRE is not being presented as a finished consumer product. It is a working exploration of what happens when a multimodal AI is given a body, a point of view and a voice.</p>
-   <p>The next iterations are about making the system feel less like a collection of impressive demos and more like a coherent product: faster interaction, cleaner hardware, better power management, stronger phone connectivity, more modular tool orchestration and a tighter loop between what the wearer sees and what the assistant understands.</p>
-  </div>
-  <div class="timeline">
-   <div class="step"><h3>Make the interaction faster.</h3><p>Reduce the distance between speaking, understanding and hearing the response.</p></div>
-   <div class="step"><h3>Make the architecture modular.</h3><p>Move toward a cleaner orchestration layer and MCP-style tool connectivity so new capabilities do not require rebuilding the entire wearable.</p></div>
-   <div class="step"><h3>Make the hardware disappear.</h3><p>Shrink the electronics, improve the audio experience and keep the system comfortable enough that the technology stops being the thing you notice.</p></div>
-   <div class="step"><h3>Keep building.</h3><p>The best version of ASPIRE is probably not the one on this page. That's exactly why the project continues.</p></div>
   </div>
  </div>
 </section>
