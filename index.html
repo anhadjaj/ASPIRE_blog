@@ -331,6 +331,16 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
   .reveal{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
+@media (max-aspect-ratio:1292/1000){
+  .scene-stage{background:var(--bg)!important}
+  .scene-ambient{display:none!important}
+  .scene-video{
+    width:100%!important;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 20%,#000 80%,transparent 100%)!important;
+    mask-image:linear-gradient(to bottom,transparent 0,#000 20%,#000 80%,transparent 100%)!important;
+  }
+  .scene-track{height:300svh!important}
+}
 </style>
 </head>
 
