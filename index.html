@@ -7,7 +7,7 @@
 
 <title>ASPIRE Smart Glasses — Anhad Jaj | AI That Sees, Hears & Acts</title>
 <meta name="author" content="Anhad Jaj">
-<meta name="description" content="ASPIRE is Anhad Jaj's custom-built AI smart glasses: a wearable that listens, sees, understands context, answers questions, takes photos and acts through VIPER.">
+<meta name="description" content="ASPIRE is Anhad Jaj's custom-built AI smart glasses: a wearable that listens, sees, understands context, answers questions, takes photos, sends messages, makes calls, recognises familiar faces and acts through VIPER.">
 <meta name="keywords" content="Anhad Jaj, Anhad Singh Jaj, ASPIRE smart glasses, VIPER AI, AI glasses, smart glasses, wearable AI, computer vision, edge AI, ESP32-S3, AI assistant, multimodal AI">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#050607">
@@ -341,6 +341,9 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
   }
   .scene-track{height:300svh!important}
 }
+.changes.four{grid-template-columns:repeat(4,1fr);margin-top:34px}
+@media(max-width:980px){.changes.four{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.changes.four{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -350,7 +353,8 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
   <div class="container nav">
     <a class="logo" href="#top" aria-label="ASPIRE home"><img src="ASPIRE_logo_final.png" alt="ASPIRE"></a>
     <div class="navlinks">
-      <a href="#story">The idea</a>
+      <a href="#v3">What’s new</a>
+<a href="#story">The idea</a>
       <a href="#glasses">Experience</a>
       <a href="#capabilities">Capabilities</a>
       <a href="#speed">Speed</a>
@@ -365,7 +369,7 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
 <!-- HERO -->
 <section class="hero">
   <div class="container hero-inner">
-    <div class="pill reveal"><b>V2</b> The second generation of ASPIRE</div>
+    <div class="pill reveal"><b>V3</b> The third generation of ASPIRE</div>
     <div class="wordmark grad reveal d1">ASPIRE</div>
     <div class="expansion reveal d1">Anhad's Smart Personal Intelligence and Reasoning Entity</div>
     <h1 class="reveal d2">Smart glasses with a <span class="grad">point of view.</span></h1>
@@ -442,8 +446,8 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
     <div class="hero-stats reveal">
       <div class="hs"><b>1 camera</b><span>your point of view, as context</span></div>
       <div class="hs"><b>Voice-first</b><span>talk naturally instead of typing</span></div>
-      <div class="hs"><b>11 capabilities</b><span>mail, maps, music, calendar and more</span></div>
-      <div class="hs"><b>2–4s</b><span>from question to spoken answer</span></div>
+      <div class="hs"><b>15 capabilities</b><span>messages, calls, Face Sense and more</span></div>
+      <div class="hs"><b>~3s</b><span>voice answers, ~2s for messages &amp; calls</span></div>
     </div>
   </div>
 </section>
@@ -528,7 +532,8 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
           <div class="feature-list">
             <div class="feature"><b>First-person vision</b><span>The camera sees from the same perspective as the wearer.</span></div>
             <div class="feature"><b>Visual translation</b><span>Ask VIPER to read or translate any text you can see.</span></div>
-            <div class="feature"><b>Focused answers</b><span>The reply is about the thing that matters, not a description of everything in frame.</span></div>
+            <div class="feature"><b>Face Sense</b><span>Tell Aspire to remember someone and it recognises them next time, with their context attached.</span></div>
+<div class="feature"><b>Focused answers</b><span>The reply is about the thing that matters, not a description of everything in frame.</span></div>
           </div>
         </div>
       </div>
@@ -556,7 +561,8 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
           </div>
           <div class="feature-list">
             <div class="feature"><b>Take a photo</b><span>Trigger the camera from a natural voice request.</span></div>
-            <div class="feature"><b>Digital tools</b><span>Email, calendar, maps, music, cloud storage and more, all by voice.</span></div>
+            <div class="feature"><b>Messages &amp; calls</b><span>WhatsApp, SMS, Instagram DMs and phone calls, started by voice in about two seconds.</span></div>
+<div class="feature"><b>Digital tools</b><span>Email, calendar, maps, music, cloud storage and more, all by voice.</span></div>
             <div class="feature"><b>Action-aware replies</b><span>Do the task first, then tell you about it in plain language.</span></div>
           </div>
         </div>
@@ -574,7 +580,11 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
           <button class="chip" data-s="code">“Does this code look right?”</button>
           <button class="chip" data-s="mail">“Read my latest email.”</button>
           <button class="chip" data-s="nav">“How long to get home?”</button>
-          <button class="chip" data-s="photo">“Take a photo.”</button>
+          <button class="chip" data-s="msg">“WhatsApp Mom I’m late.”</button>
+<button class="chip" data-s="ig">“Reply to Riya on Instagram.”</button>
+<button class="chip" data-s="call">“Call Dad.”</button>
+<button class="chip" data-s="face">“Remember this person.”</button>
+<button class="chip" data-s="photo">“Take a photo.”</button>
         </div>
         <div class="stream" id="stream" aria-live="polite"></div>
       </div>
@@ -589,7 +599,7 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
     <div class="center">
       <div class="kicker reveal">Personal intelligence</div>
       <h2 class="reveal d1">Everything connected. Right at your ear.</h2>
-      <p class="sub reveal d2">VIPER isn't just a chatbot. It's a reasoning agent wired into the services you already use every day.</p>
+      <p class="sub reveal d2">VIPER isn't just a chatbot. It's a reasoning agent wired into the services you already use every day, from your inbox to your WhatsApp, Instagram and phone calls.</p>
     </div>
 
     <div class="bento">
@@ -609,6 +619,10 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
       <div class="cap reveal d1"><span class="tg">09 · FILES</span><h3>Google Drive Search</h3><p>Finds your cloud documents by name and reads their contents aloud.</p></div>
       <div class="cap reveal d2"><span class="tg">10 · CAPTURE</span><h3>Vision &amp; Telegram</h3><p>Capture photos from the glasses and push images or translations straight to your phone.</p></div>
       <div class="cap reveal d3"><span class="tg">11 · NEWS</span><h3>Top Headlines</h3><p>Breaking global headlines and top stories across categories, whenever you want a briefing.</p></div>
+      <div class="cap reveal"><span class="tg">12 · MESSAGES</span><h3>WhatsApp &amp; SMS</h3><p>Say who and what, and Aspire finds the contact, composes the message and sends it in about two seconds.</p></div>
+      <div class="cap reveal d1"><span class="tg">13 · INSTAGRAM</span><h3>Instagram DMs</h3><p>Send new Instagram DMs or reply to an existing conversation, hands-free.</p></div>
+      <div class="cap reveal d2"><span class="tg">14 · CALLS</span><h3>Phone Calls</h3><p>“Call Dad.” Aspire matches the contact and starts the call without you touching your phone.</p></div>
+      <div class="cap wide reveal d3"><span class="tg">15 · FACE SENSE</span><h3>Face Sense</h3><p>Recognises and remembers familiar people using 512-dimensional facial embeddings, with a reported 96% recognition accuracy, and links them to personalised context.</p></div>
     </div>
   </div>
 </section>
@@ -733,7 +747,7 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
         <div class="tech-copy"><h3>From “answer me” to “do this.”</h3><p>The assistant is given a set of executable tools alongside your request. If the model decides a tool is appropriate, it returns a structured action which the system executes.</p><p>That's what lets one voice interface move between conversation and action: retrieving information, using connected services, or triggering the camera.</p></div>
         <div class="techgrid">
           <div class="techcard"><b>TOOL CALLING</b><p>Structured model outputs map spoken intent to executable functions.</p></div>
-          <div class="techcard"><b>CONNECTED SERVICES</b><p>Integrations include email, calendar, maps, music, search and cloud storage.</p></div>
+          <div class="techcard"><b>CONNECTED SERVICES</b><p>Integrations include email, calendar, maps, music, search, cloud storage, WhatsApp, SMS, Instagram DMs and phone calls.</p></div>
           <div class="techcard"><b>LOCAL ACTIONS</b><p>Hardware operations such as photo capture can be short-circuited locally, with no round trip.</p></div>
         </div>
       </div>
@@ -789,7 +803,10 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
       <div class="spec-row"><span>AUDIO OUT</span><span>Speaker driven by a dedicated I2S amplifier</span></div>
       <div class="spec-row"><span>CONNECTIVITY</span><span>2.4 GHz Wi-Fi to the VIPER reasoning backend</span></div>
       <div class="spec-row"><span>ASSISTANT</span><span>VIPER · voice + vision + tool calling</span></div>
-      <div class="spec-row"><span>LATENCY (V2)</span><span>~3–4 s vision queries · ~2–3 s voice-only queries</span></div>
+      <div class="spec-row"><span>COMMUNICATION</span><span>WhatsApp, SMS, Instagram DMs and phone calls by voice (~2 s)</span></div>
+<div class="spec-row"><span>FACE SENSE</span><span>512-dimensional facial embeddings · 96% reported recognition accuracy</span></div>
+<div class="spec-row"><span>LATENCY (V3)</span><span>~4–5 s vision queries · ~3 s voice queries · ~2 s messages and calls</span></div>
+<div class="spec-row"><span>LATENCY (V2)</span><span>~3–4 s vision queries · ~2–3 s voice-only queries</span></div>
     </div>
   </div>
 </section>
@@ -799,7 +816,7 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
   <div class="container">
     <div class="kicker center reveal" style="justify-content:center"><span>ASPIRE · A project by Anhad Jaj</span></div>
     <h2 class="reveal d1">From a sketch to a pair of glasses that <span class="grad">see, hear and respond.</span></h2>
-    <p class="sub reveal d2">V1 proved it could work. V2 made it feel natural. Building in public, one iteration at a time.</p>
+    <p class="sub reveal d2">V1 proved it could work. V2 made it feel natural. V3 makes it faster, more perceptive and able to reach out for you. Building in public, one iteration at a time.</p>
     <div class="cta-row reveal d3">
       <a class="btn primary" href="mailto:lionel.anhad@gmail.com">Get in touch</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/anhad-jaj-519720282" target="_blank" rel="noopener">LinkedIn</a>
@@ -929,7 +946,11 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
     code:[['WAKE','Wake word detected','t-wake'],['HEARD','“Does this code look right?”','t-heard'],['SEE','Reading the code on screen','t-see'],['SAY','Almost. The loop runs one step too far, so change the condition to less than, not less than or equal.','t-say']],
     mail:[['WAKE','Wake word detected','t-wake'],['HEARD','“Read my latest email.”','t-heard'],['TOOL','Calling mail tool · fetching latest unread','t-tool'],['SAY','You have one new message from abc about Thursday’s meeting. She’s asking to move it to 4 PM.','t-say']],
     nav:[['WAKE','Wake word detected','t-wake'],['HEARD','“How long to get home?”','t-heard'],['TOOL','Calling maps tool · live traffic','t-tool'],['SAY','About twenty-two minutes with current traffic, eight kilometres. Want the route?','t-say']],
-    photo:[['WAKE','Wake word detected','t-wake'],['HEARD','“Take a photo.”','t-heard'],['TOOL','Local action · camera capture, no cloud round trip','t-tool'],['SAY','Done. I’ve sent it to your phone.','t-say']]
+    msg:[['WAKE','Wake word detected','t-wake'],['HEARD','“Send Mom a WhatsApp: running ten minutes late.”','t-heard'],['TOOL','Resolving contact · opening WhatsApp thread · sending','t-tool'],['SAY','Sent to Mom on WhatsApp.','t-say']],
+ig:[['WAKE','Wake word detected','t-wake'],['HEARD','“Reply to Riya on Instagram: sounds great, see you at six.”','t-heard'],['TOOL','Finding Riya’s latest Instagram DM · composing reply','t-tool'],['SAY','Replied to Riya on Instagram.','t-say']],
+call:[['WAKE','Wake word detected','t-wake'],['HEARD','“Call Dad.”','t-heard'],['TOOL','Matching “Dad” in contacts · placing call','t-tool'],['SAY','Calling Dad now.','t-say']],
+face:[['WAKE','Wake word detected','t-wake'],['HEARD','“Remember this person as Arjun.”','t-heard'],['SEE','Face detected · generating 512-dimensional embedding','t-see'],['SAY','Got it. I’ll recognise Arjun from now on.','t-say']],
+photo:[['WAKE','Wake word detected','t-wake'],['HEARD','“Take a photo.”','t-heard'],['TOOL','Local action · camera capture, no cloud round trip','t-tool'],['SAY','Done. I’ve sent it to your phone.','t-say']]
   };
   var stream=document.getElementById('stream'),timers=[];
   function play(key){
