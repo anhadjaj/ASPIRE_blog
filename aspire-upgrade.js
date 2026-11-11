@@ -1,979 +1,196 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="ASPIRE_logo_final.png">
-
-<title>ASPIRE Smart Glasses — Anhad Jaj | AI That Sees, Hears & Acts</title>
-<meta name="author" content="Anhad Jaj">
-<meta name="description" content="ASPIRE is Anhad Jaj's custom-built AI smart glasses: a wearable that listens, sees, understands context, answers questions, takes photos, sends messages, makes calls, recognises familiar faces and acts through VIPER.">
-<meta name="keywords" content="Anhad Jaj, Anhad Singh Jaj, ASPIRE smart glasses, VIPER AI, AI glasses, smart glasses, wearable AI, computer vision, edge AI, ESP32-S3, AI assistant, multimodal AI">
-<meta name="robots" content="index, follow">
-<meta name="theme-color" content="#050607">
-<link rel="canonical" href="https://hybrid-xr.onrender.com/aspire">
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="ASPIRE — AI That Lives Where You Look">
-<meta property="og:description" content="A personal AI wearable built by Anhad Jaj. ASPIRE gives VIPER a camera, microphone, voice, and a view of the world.">
-<meta property="og:url" content="https://hybrid-xr.onrender.com/aspire">
-<meta property="og:site_name" content="Anhad Jaj">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ASPIRE — AI That Lives Where You Look">
-<meta name="twitter:description" content="Anhad Jaj's custom AI smart glasses powered by VIPER.">
-
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"TechArticle",
-  "headline":"ASPIRE — AI That Lives Where You Look",
-  "description":"A custom-built multimodal AI smart glasses platform engineered by Anhad Jaj.",
-  "author":{"@type":"Person","name":"Anhad Jaj"},
-  "about":["Artificial Intelligence","Smart Glasses","Wearable Computing","Computer Vision","Voice AI"],
-  "keywords":"ASPIRE, VIPER, Anhad Jaj, smart glasses, wearable AI"
-}
-</script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --bg:#050607;
-  --bg2:#0a0b0e;
-  --surface:#0f1114;
-  --surface2:#14171b;
-  --line:#1f232a;
-  --line2:#2b3038;
-  --text:#f4f6f9;
-  --soft:#c4cad3;
-  --muted:#8b929d;
-  --accent:#7aa7ff;
-  --accent2:#b39aff;
-  --green:#6fe0b4;
-  --amber:#ffb86b;
-  --grad:linear-gradient(120deg,#ffffff 8%,#9bbcff 50%,#c0a8ff 95%);
-  --radius:22px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:inherit}
-img{max-width:100%;display:block}
-.container{max-width:1160px;margin:0 auto;padding:0 28px}
-.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
-section{padding:130px 0;position:relative}
-p{color:var(--muted);font-size:17px}
-h1,h2,h3{font-weight:700}
-.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.kicker{font:600 11px "JetBrains Mono",monospace;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.kicker:before{content:"";width:22px;height:1px;background:var(--accent)}
-h2{font-size:clamp(34px,5vw,60px);letter-spacing:-.045em;line-height:1.04;max-width:860px}
-.sub{font-size:19px;color:var(--soft);max-width:660px;margin-top:22px;line-height:1.7}
-.center{text-align:center}
-.center h2,.center .sub{margin-left:auto;margin-right:auto}
-.center .kicker{justify-content:center}
-.center .kicker:before{display:none}
-
-/* grain + ambient */
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-main,footer,nav{position:relative;z-index:1}
-
-/* reveal */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;transform:none}
-.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
-
-/* nav */
-nav{position:fixed;top:0;left:0;width:100%;z-index:1000;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
-nav.scrolled{background:rgba(5,6,7,.72);backdrop-filter:saturate(1.4) blur(22px);-webkit-backdrop-filter:saturate(1.4) blur(22px);border-bottom-color:rgba(255,255,255,.07)}
-.nav{height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.logo{display:flex;align-items:center;text-decoration:none}
-.logo img{height:30px;width:auto}
-.navlinks{display:flex;gap:30px}
-.navlinks a{text-decoration:none;color:var(--muted);font-size:13px;font-weight:500;transition:color .2s}
-.navlinks a:hover{color:#fff}
-.nav-cta{font-size:12px;font-weight:600;text-decoration:none;padding:9px 16px;border-radius:999px;background:#fff;color:#000;transition:transform .2s,box-shadow .2s;white-space:nowrap}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(122,167,255,.35)}
-
-/* hero */
-.hero{min-height:100vh;padding:130px 0 70px;display:flex;align-items:center;overflow:hidden}
-.hero:before{content:"";position:absolute;width:900px;height:900px;left:50%;top:48%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(84,120,255,.20),rgba(140,100,255,.08) 38%,transparent 66%);pointer-events:none;animation:breathe 7s ease-in-out infinite}
-@keyframes breathe{50%{opacity:.65;transform:translate(-50%,-50%) scale(1.06)}}
-.hero-inner{text-align:center;position:relative}
-.pill{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line2);background:rgba(255,255,255,.03);backdrop-filter:blur(8px);padding:7px 14px 7px 8px;border-radius:999px;font:500 11px "JetBrains Mono",monospace;letter-spacing:.06em;color:var(--soft);margin-bottom:34px}
-.pill b{background:linear-gradient(120deg,var(--accent),var(--accent2));color:#050607;padding:3px 9px;border-radius:999px;font-weight:700}
-.wordmark{font-size:clamp(70px,13vw,170px);font-weight:800;letter-spacing:-.07em;line-height:.85}
-.expansion{font:500 12px "JetBrains Mono",monospace;color:#7d8590;letter-spacing:.06em;margin:20px 0 26px}
-h1{font-size:clamp(30px,4.4vw,54px);letter-spacing:-.045em;line-height:1.06;max-width:820px;margin:0 auto}
-.lead{font-size:20px;color:var(--soft);max-width:640px;margin:24px auto 0;line-height:1.65}
-.cta-row{display:flex;gap:14px;justify-content:center;margin-top:38px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:14px;font-weight:600;padding:14px 26px;border-radius:999px;transition:transform .2s,box-shadow .25s,background .2s,border-color .2s}
-.btn.primary{background:#fff;color:#000}
-.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(122,167,255,.4)}
-.btn.ghost{border:1px solid var(--line2);color:var(--text);background:rgba(255,255,255,.02)}
-.btn.ghost:hover{border-color:#566;background:rgba(255,255,255,.06)}
-
-/* glasses figure */
-.figure{position:relative;max-width:900px;margin:64px auto 0}
-.figure svg{width:100%;height:auto;display:block;overflow:visible}
-.float{animation:float 7s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-10px)}}
-.pulse{animation:pulse 2.4s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.9)}}
-.scanline{animation:scan 5s ease-in-out infinite}
-@keyframes scan{0%,100%{transform:translateX(0);opacity:0}15%,85%{opacity:.9}50%{transform:translateX(170px)}}
-.callout{font:500 10.5px "JetBrains Mono",monospace;fill:#aeb6c2;letter-spacing:.05em}
-.callout-t{font:600 9px "JetBrains Mono",monospace;fill:#7aa7ff;letter-spacing:.16em}
-
-.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:70px}
-.hs{background:rgba(10,11,14,.9);padding:26px 22px;text-align:left}
-.hs b{display:block;font-size:30px;font-weight:700;letter-spacing:-.04em;line-height:1.1}
-.hs span{font-size:13px;color:var(--muted)}
-
-/* story */
-.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-top:56px}
-.story-grid p{font-size:18px;line-height:1.85;margin-bottom:22px}
-.story-grid strong{color:var(--text)}
-.pull{font-size:clamp(26px,3.4vw,40px);font-weight:600;line-height:1.2;letter-spacing:-.04em;color:#fff;margin-top:90px;max-width:900px}
-.compare{display:grid;gap:14px}
-.ritual,.aspire-way{border:1px solid var(--line);border-radius:18px;padding:26px;background:var(--surface)}
-.ritual small,.aspire-way small{font:600 10px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--muted);display:block;margin-bottom:14px}
-.ritual ol{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
-.ritual li{font-size:12.5px;color:var(--muted);border:1px solid var(--line2);padding:6px 11px;border-radius:999px}
-.aspire-way{background:linear-gradient(145deg,rgba(122,167,255,.12),rgba(179,154,255,.06));border-color:rgba(122,167,255,.35)}
-.aspire-way small{color:var(--accent)}
-.aspire-way div{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:600;letter-spacing:-.03em}
-.aspire-way em{font-style:normal;font:500 11px "JetBrains Mono",monospace;color:var(--green);border:1px solid rgba(111,224,180,.4);padding:3px 9px;border-radius:999px}
-
-/* tabs */
-.tabset{margin-top:60px}
-.tabbar{display:inline-flex;gap:4px;padding:5px;border:1px solid var(--line);border-radius:999px;background:var(--surface);max-width:100%;overflow-x:auto;scrollbar-width:none}
-.tabbar::-webkit-scrollbar{display:none}
-.tab{border:0;background:none;color:var(--muted);padding:11px 22px;border-radius:999px;cursor:pointer;font:600 12px Inter;letter-spacing:.06em;white-space:nowrap;transition:color .2s,background .25s}
-.tab:hover{color:#fff}
-.tab.active{background:#fff;color:#000}
-.panel{display:none;margin-top:36px}
-.panel.active{display:block;animation:fade .5s ease}
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.panel-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;border:1px solid var(--line);border-radius:28px;padding:48px;background:linear-gradient(160deg,var(--surface),var(--bg2))}
-.panel-grid h3{font-size:clamp(26px,3vw,36px);letter-spacing:-.04em;line-height:1.12;margin-bottom:18px}
-.panel-grid p{font-size:17px;margin-bottom:16px}
-.panel-grid p strong{color:#fff}
-.feature-list{display:grid;gap:12px}
-.feature{border:1px solid var(--line);background:rgba(255,255,255,.02);padding:20px 22px;border-radius:16px;transition:border-color .25s,background .25s}
-.feature:hover{border-color:rgba(122,167,255,.4);background:rgba(122,167,255,.05)}
-.feature b{display:block;font-size:15px;margin-bottom:4px}
-.feature span{font-size:14px;color:var(--muted);display:block;line-height:1.55}
-
-/* demo */
-.demo{margin-top:90px;border:1px solid var(--line);border-radius:28px;background:var(--surface);overflow:hidden}
-.demo-top{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--line);font:500 11px "JetBrains Mono",monospace;color:var(--muted);letter-spacing:.06em}
-.demo-top i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:8px;box-shadow:0 0 10px var(--green)}
-.demo-body{display:grid;grid-template-columns:260px 1fr}
-.chips{padding:22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
-.chips small{font:600 10px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--muted);margin-bottom:6px}
-.chip{text-align:left;border:1px solid var(--line2);background:none;color:var(--soft);font:500 13.5px Inter;padding:12px 14px;border-radius:12px;cursor:pointer;transition:all .2s}
-.chip:hover{border-color:#566;color:#fff}
-.chip.active{background:rgba(122,167,255,.12);border-color:rgba(122,167,255,.55);color:#fff}
-.stream{padding:30px 34px;min-height:340px;display:flex;flex-direction:column;gap:14px;justify-content:center}
-.ev{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:start;opacity:0;transform:translateY(8px);animation:evIn .5s forwards}
-@keyframes evIn{to{opacity:1;transform:none}}
-.ev .tag{font:600 10px "JetBrains Mono",monospace;letter-spacing:.12em;padding:5px 0;color:var(--muted)}
-.ev .tag.t-wake{color:var(--amber)}.ev .tag.t-heard{color:var(--accent)}.ev .tag.t-see{color:var(--accent2)}.ev .tag.t-tool{color:var(--green)}.ev .tag.t-say{color:#fff}
-.ev .msg{font-size:15.5px;color:var(--soft);padding:2px 0}
-.ev .msg.say{color:#fff;font-size:18px;font-weight:500;letter-spacing:-.02em}
-.demo-foot{padding:14px 24px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
-
-/* capabilities */
-.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:64px}
-.cap{position:relative;border:1px solid var(--line);border-radius:22px;padding:28px;background:var(--surface);overflow:hidden;transition:border-color .3s,transform .3s}
-.cap:before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(122,167,255,.13),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
-.cap:hover{border-color:var(--line2);transform:translateY(-3px)}
-.cap:hover:before{opacity:1}
-.cap .tg{font:600 10px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--accent);display:block;margin-bottom:34px}
-.cap h3{font-size:21px;letter-spacing:-.03em;margin-bottom:10px}
-.cap p{font-size:14.5px;line-height:1.6;margin:0}
-.cap.wide{grid-column:span 2}
-.cap.tall{grid-row:span 2}
-.cap.hero-cap{background:linear-gradient(150deg,rgba(122,167,255,.14),var(--surface) 55%)}
-.cap.hero-cap h3{font-size:30px;letter-spacing:-.04em}
-.cap.hero-cap p{font-size:16px}
-.mini-reticle{margin-top:26px;height:130px;border:1px solid var(--line2);border-radius:14px;position:relative;background:repeating-linear-gradient(0deg,transparent 0 23px,rgba(255,255,255,.03) 23px 24px),repeating-linear-gradient(90deg,transparent 0 23px,rgba(255,255,255,.03) 23px 24px)}
-.mini-reticle i{position:absolute;width:44px;height:44px;border:1.5px solid var(--accent);border-radius:8px;left:30%;top:28%;box-shadow:0 0 24px rgba(122,167,255,.45);animation:track 5s ease-in-out infinite}
-.mini-reticle span{position:absolute;font:500 10px "JetBrains Mono",monospace;color:var(--accent);left:30%;top:calc(28% + 52px);animation:track2 5s ease-in-out infinite}
-@keyframes track{0%,100%{transform:translate(0,0)}50%{transform:translate(130px,-6px)}}
-@keyframes track2{0%,100%{transform:translate(0,0)}50%{transform:translate(130px,-6px)}}
-
-/* full-bleed scroll scene */
-.scene-track{position:relative;height:400vh;height:400svh;background:var(--bg)}
-.scene-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#0b0a09}
-.scene-ambient{position:absolute;left:0;top:0;width:100%;height:100%;opacity:.45;display:none}
-@media (min-aspect-ratio:83/50),(max-aspect-ratio:1292/1000){.scene-ambient{display:block}}
-.scene-video{position:absolute;left:50%;top:50%;width:min(100%,calc(100vh*1.656));width:min(100%,calc(100svh*1.656));aspect-ratio:1184/916;height:auto;object-fit:cover;display:block;transform:translate(-50%,-50%);will-change:transform}
-@media (max-aspect-ratio:1292/1000){.scene-video{width:112%}}
-.scene-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;box-shadow:inset 0 0 90px 40px var(--bg)}
-.scene-stage:before,.scene-stage:after{content:"";position:absolute;left:0;right:0;height:24%;z-index:2;pointer-events:none}
-.scene-stage:before{top:0;background:linear-gradient(var(--bg),rgba(5,6,7,0))}
-.scene-stage:after{bottom:0;background:linear-gradient(rgba(5,6,7,0),var(--bg))}
-.scene-cue{position:absolute;left:50%;bottom:28px;margin-left:-11px;z-index:3;color:rgba(255,255,255,.85);transition:opacity .4s;animation:nudge 1.8s ease-in-out infinite;pointer-events:none}
-#glasses{scroll-margin-top:-84px}
-@keyframes nudge{50%{transform:translateY(6px)}}
-
-/* performance */
-.perf{background:linear-gradient(180deg,var(--bg),#07090d 40%,var(--bg));border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
-.perf:before{content:"";position:absolute;width:800px;height:800px;right:-300px;top:10%;background:radial-gradient(circle,rgba(111,224,180,.09),transparent 65%);pointer-events:none}
-.perf-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:70px}
-.perf-card{border:1px solid var(--line);border-radius:28px;padding:40px;background:var(--surface);position:relative;overflow:hidden}
-.perf-card .tg{font:600 10px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--muted)}
-.perf-card h3{font-size:26px;letter-spacing:-.035em;margin:10px 0 6px}
-.perf-card>p{font-size:15px}
-.big{display:flex;align-items:baseline;gap:14px;margin:34px 0 30px;flex-wrap:wrap}
-.big .num{font-size:clamp(64px,8vw,104px);font-weight:800;letter-spacing:-.07em;line-height:.9}
-.big .unit{font:600 12px "JetBrains Mono",monospace;color:var(--green);border:1px solid rgba(111,224,180,.4);background:rgba(111,224,180,.08);padding:5px 11px;border-radius:999px;letter-spacing:.06em}
-.bars{display:grid;gap:18px}
-.bar-row .lbl{display:flex;justify-content:space-between;font:500 12px "JetBrains Mono",monospace;color:var(--muted);margin-bottom:8px;letter-spacing:.04em}
-.bar-row .lbl b{color:var(--text);font-weight:600}
-.track{height:14px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
-.fill{height:100%;width:0;border-radius:999px;transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
-.fill.v1{background:linear-gradient(90deg,#3a3f48,#59606c)}
-.fill.v2{background:linear-gradient(90deg,var(--accent),var(--green));box-shadow:0 0 22px rgba(111,224,180,.4)}
-.axis{display:flex;justify-content:space-between;font:500 10px "JetBrains Mono",monospace;color:#555c67;margin-top:12px}
-.perf-note{font-size:13px;color:#68707b;margin-top:26px;text-align:center}
-
-.changes{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:70px}
-.change{border:1px solid var(--line);border-radius:20px;padding:24px 22px;background:var(--surface)}
-.change .n{font:600 11px "JetBrains Mono",monospace;color:var(--accent);margin-bottom:26px;display:block}
-.change h4{font-size:16px;letter-spacing:-.02em;margin-bottom:8px;line-height:1.3}
-.change p{font-size:13.5px;line-height:1.6;margin:0}
-.h-small{font-size:clamp(24px,3vw,34px);letter-spacing:-.04em;line-height:1.1;margin-top:100px;font-weight:700;max-width:640px}
-
-/* quote */
-.quote{padding:130px 0}
-.quote blockquote{font-size:clamp(28px,4.6vw,56px);letter-spacing:-.045em;line-height:1.12;font-weight:600;max-width:1000px;margin:auto;text-align:center}
-.quote cite{display:block;margin-top:28px;color:var(--muted);font-style:normal;font-size:13px;text-align:center}
-
-/* intelligence */
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:60px}
-.duo-card{border:1px solid var(--line);border-radius:26px;padding:40px;background:var(--surface);min-height:300px;display:flex;flex-direction:column;justify-content:space-between}
-.duo-card .tg{font:600 10px "JetBrains Mono",monospace;letter-spacing:.14em;color:var(--muted)}
-.duo-card h3{font-size:44px;letter-spacing:-.05em;margin:14px 0}
-.duo-card.mind{background:linear-gradient(150deg,rgba(179,154,255,.14),var(--surface) 60%);border-color:rgba(179,154,255,.3)}
-.duo-card.mind .tg{color:var(--accent2)}
-.duo-card p{font-size:16px;margin:0}
-
-/* tech */
-.tech{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.tech-copy{max-width:760px}
-.tech-copy h3{font-size:clamp(24px,3vw,34px);letter-spacing:-.04em;line-height:1.15;margin-bottom:16px}
-.tech-copy p{font-size:16.5px}
-.techgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
-.techcard{border:1px solid var(--line);padding:24px;border-radius:16px;background:var(--surface)}
-.techcard b{font:600 11px "JetBrains Mono",monospace;color:var(--accent);display:block;margin-bottom:12px;letter-spacing:.1em}
-.techcard p{font-size:14px;margin:0;line-height:1.6}
-.tech .panel{margin-top:40px}
-
-.arch{margin-top:56px;border:1px solid var(--line);border-radius:26px;padding:36px;background:var(--surface)}
-.arch svg{width:100%;height:auto;display:block}
-.arch-t{font:600 11px "JetBrains Mono",monospace;fill:#aeb6c2;letter-spacing:.08em}
-.arch-s{font:500 10.5px "JetBrains Mono",monospace;fill:#7d8590}
-.flow{stroke-dasharray:5 6;animation:dash 1.2s linear infinite}
-@keyframes dash{to{stroke-dashoffset:-22}}
-
-.specs{margin-top:56px;border:1px solid var(--line);border-radius:22px;overflow:hidden}
-.spec-row{display:grid;grid-template-columns:200px 1fr;gap:20px;padding:18px 26px;border-bottom:1px solid var(--line);background:var(--surface)}
-.spec-row:last-child{border-bottom:0}
-.spec-row:nth-child(even){background:var(--surface2)}
-.spec-row span:first-child{font:600 11px "JetBrains Mono",monospace;color:var(--muted);letter-spacing:.1em;padding-top:2px}
-.spec-row span:last-child{font-size:15px;color:var(--soft)}
-
-/* closing */
-.closing{text-align:center;padding:150px 0 130px;overflow:hidden}
-.closing:before{content:"";position:absolute;width:800px;height:800px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(122,167,255,.16),transparent 62%);pointer-events:none}
-.closing h2{margin:0 auto;font-size:clamp(40px,6.4vw,84px);position:relative}
-.closing .sub{margin:26px auto 0;position:relative}
-.closing .cta-row{position:relative}
-
-footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-size:13px}
-.footer{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
-.footer .links{display:flex;gap:22px}
-.footer a{text-decoration:none;transition:color .2s}
-.footer a:hover{color:#fff}
-
-@media(max-width:980px){
-  .bento{grid-template-columns:repeat(2,1fr)}
-  .cap.wide{grid-column:span 2}.cap.tall{grid-row:auto}
-  .changes{grid-template-columns:repeat(2,1fr)}
-  .perf-grid,.duo,.story-grid,.panel-grid{grid-template-columns:1fr}
-  .story-grid{gap:30px}
-  .panel-grid{padding:30px}
-  .demo-body{grid-template-columns:1fr}
-  .chips{border-right:0;border-bottom:1px solid var(--line);flex-direction:row;flex-wrap:wrap}
-  .chips small{width:100%}
-}
-@media(max-width:720px){
-  section{padding:90px 0}
-  .navlinks{display:none}
-  .hero-stats{grid-template-columns:repeat(2,1fr)}
-  .bento,.changes,.techgrid{grid-template-columns:1fr}
-  .cap.wide{grid-column:auto}
-  .perf-card{padding:28px}
-  .ev{grid-template-columns:1fr;gap:2px}
-  .stream{padding:24px}
-  .spec-row{grid-template-columns:1fr;gap:4px}
-  .container{padding:0 20px}
-  .callout,.callout-t{display:none}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*:before{animation:none!important;transition:none!important}
-  .reveal{opacity:1;transform:none}
-  html{scroll-behavior:auto}
-}
-@media (max-aspect-ratio:1292/1000){
-  .scene-stage{background:var(--bg)!important}
-  .scene-ambient{display:none!important}
-  .scene-video{
-    width:100%!important;
-    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 20%,#000 80%,transparent 100%)!important;
-    mask-image:linear-gradient(to bottom,transparent 0,#000 20%,#000 80%,transparent 100%)!important;
-  }
-  .scene-track{height:300svh!important}
-}
-.changes.four{grid-template-columns:repeat(4,1fr);margin-top:34px}
-@media(max-width:980px){.changes.four{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:720px){.changes.four{grid-template-columns:1fr}}
-</style>
-</head>
-
-<body>
-
-<nav id="nav">
-  <div class="container nav">
-    <a class="logo" href="#top" aria-label="ASPIRE home"><img src="ASPIRE_logo_final.png" alt="ASPIRE"></a>
-    <div class="navlinks">
-      <a href="#v3">What’s new</a>
-<a href="#story">The idea</a>
-      <a href="#glasses">Experience</a>
-      <a href="#capabilities">Capabilities</a>
-      <a href="#speed">Speed</a>
-      <a href="#technology">Technology</a>
-    </div>
-    <a class="nav-cta" href="#speed">Feel the speed</a>
-  </div>
-</nav>
-
-<main id="top">
-
-<!-- HERO -->
-<section class="hero">
-  <div class="container hero-inner">
-    <div class="pill reveal"><b>V3</b> The third generation of ASPIRE</div>
-    <div class="wordmark grad reveal d1">ASPIRE</div>
-    <div class="expansion reveal d1">Anhad's Smart Personal Intelligence and Reasoning Entity</div>
-    <h1 class="reveal d2">Smart glasses with a <span class="grad">point of view.</span></h1>
-    <p class="lead reveal d2">AI that sees, hears, understands and acts, from exactly where you already are. No phone to unlock. No app to open.</p>
-    <div class="cta-row reveal d3">
-      <a class="btn primary" href="#glasses">Explore the experience</a>
-      <a class="btn ghost" href="#speed">Feel the speed</a>
-    </div>
-
-    <div class="figure reveal d3" aria-label="Illustration of the ASPIRE smart glasses">
-      <svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img">
-        <defs>
-          <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#e9edf5"/><stop offset=".5" stop-color="#8d97a8"/><stop offset="1" stop-color="#3b414c"/>
-          </linearGradient>
-          <linearGradient id="lens" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#7aa7ff" stop-opacity=".30"/><stop offset=".6" stop-color="#b39aff" stop-opacity=".10"/><stop offset="1" stop-color="#050607" stop-opacity=".5"/>
-          </linearGradient>
-          <radialGradient id="glow" cx=".5" cy=".5" r=".5">
-            <stop offset="0" stop-color="#7aa7ff" stop-opacity=".5"/><stop offset="1" stop-color="#7aa7ff" stop-opacity="0"/>
-          </radialGradient>
-          <clipPath id="lensL"><rect x="150" y="130" width="260" height="170" rx="70"/></clipPath>
-          <clipPath id="lensR"><rect x="490" y="130" width="260" height="170" rx="70"/></clipPath>
-        </defs>
-
-        <ellipse cx="450" cy="355" rx="330" ry="16" fill="#000" opacity=".5"/>
-        <circle cx="450" cy="205" r="250" fill="url(#glow)" opacity=".5"/>
-
-        <g class="float">
-          <!-- temple arms -->
-          <path d="M150 170 L70 150 L52 178" fill="none" stroke="url(#frame)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M750 170 L830 150 L848 178" fill="none" stroke="url(#frame)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-
-          <!-- lenses -->
-          <rect x="150" y="130" width="260" height="170" rx="70" fill="url(#lens)"/>
-          <rect x="490" y="130" width="260" height="170" rx="70" fill="url(#lens)"/>
-          <g clip-path="url(#lensL)"><rect class="scanline" x="170" y="130" width="3" height="170" fill="#7aa7ff" opacity="0"/></g>
-          <g clip-path="url(#lensR)"><path d="M520 150 L700 150" stroke="#fff" stroke-opacity=".15" stroke-width="2" stroke-linecap="round"/></g>
-          <path d="M175 160 Q200 140 260 140" stroke="#fff" stroke-opacity=".28" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-          <!-- rims -->
-          <rect x="150" y="130" width="260" height="170" rx="70" fill="none" stroke="url(#frame)" stroke-width="9"/>
-          <rect x="490" y="130" width="260" height="170" rx="70" fill="none" stroke="url(#frame)" stroke-width="9"/>
-          <!-- bridge -->
-          <path d="M410 175 Q450 148 490 175" fill="none" stroke="url(#frame)" stroke-width="9" stroke-linecap="round"/>
-
-          <!-- camera on left rim -->
-          <circle cx="158" cy="168" r="13" fill="#0b0d10" stroke="#aab4c6" stroke-width="2"/>
-          <circle cx="158" cy="168" r="5.5" fill="#7aa7ff"/>
-          <circle class="pulse" cx="158" cy="168" r="5.5" fill="#7aa7ff"/>
-          <!-- mic dots -->
-          <circle cx="744" cy="168" r="3" fill="#6fe0b4"/><circle cx="744" cy="180" r="3" fill="#6fe0b4" opacity=".6"/>
-          <!-- speaker port on right temple -->
-          <path d="M800 152 L822 156" stroke="#b39aff" stroke-width="5" stroke-linecap="round"/>
-        </g>
-
-        <!-- callouts -->
-        <g>
-          <path d="M145 168 L96 98 L40 98" stroke="#2b3038" fill="none"/>
-          <text class="callout-t" x="40" y="84">CAMERA</text><text class="callout" x="40" y="116">OV2640 · first-person view</text>
-
-          <path d="M744 168 L800 98 L860 98" stroke="#2b3038" fill="none"/>
-          <text class="callout-t" x="700" y="84">MICROPHONE</text><text class="callout" x="680" y="116">Digital I2S · local VAD</text>
-
-          <path d="M812 156 L850 250 L880 250" stroke="#2b3038" fill="none"/>
-          <text class="callout-t" x="742" y="298">SPEAKER</text><text class="callout" x="690" y="316">Open-ear · I2S amp</text>
-
-          <path d="M450 168 L450 345" stroke="#2b3038" fill="none" stroke-dasharray="3 5"/>
-          <text class="callout-t" x="398" y="372">ESP32-S3 + VIPER</text>
-        </g>
-      </svg>
-    </div>
-
-    <div class="hero-stats reveal">
-      <div class="hs"><b>1 camera</b><span>your point of view, as context</span></div>
-      <div class="hs"><b>Voice-first</b><span>talk naturally instead of typing</span></div>
-      <div class="hs"><b>15 capabilities</b><span>messages, calls, Face Sense and more</span></div>
-      <div class="hs"><b>~3s</b><span>voice answers, ~2s for messages &amp; calls</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- STORY -->
-<section id="story">
-  <div class="container">
-    <div class="kicker reveal">The idea</div>
-    <h2 class="reveal d1">We've spent years making computers smaller. What if we could make them disappear?</h2>
-
-    <div class="story-grid">
-      <div class="reveal">
-        <p>Every time we want help from an AI today, we perform the same little ritual: reach for a phone, unlock it, find the right app, type something, attach something, wait, read, and then put the phone away.</p>
-        <p>It works. But it is still a <strong>conversation with a screen</strong>.</p>
-        <p>What if the computer already knew where you were looking? What if you could just ask a question while walking, working, travelling, building something, or standing in front of something you didn't understand?</p>
-        <p>That question became <strong>ASPIRE</strong>.</p>
-      </div>
-      <div class="compare reveal d1">
-        <div class="ritual">
-          <small>TODAY</small>
-          <ol><li>Reach</li><li>Unlock</li><li>Open app</li><li>Type</li><li>Attach</li><li>Wait</li><li>Read</li><li>Put away</li></ol>
-        </div>
-        <div class="aspire-way">
-          <small>WITH ASPIRE</small>
-          <div>Just ask. <em>hands-free</em></div>
-        </div>
-        <p style="font-size:16px;margin-top:10px">There was no single “smart glasses” platform waiting to be assembled. The camera, microphone, audio, wake detection, connectivity, AI orchestration, tool execution and the interaction model all had to be built from the ground up and made to work together.</p>
-      </div>
-    </div>
-
-    <p class="pull reveal">Not a phone on your face.<br><span class="grad">A new interface for intelligence.</span></p>
-  </div>
-</section>
-
-<!-- THE GLASSES: full-bleed, scroll-controlled video -->
-<section id="glasses" style="padding:0" aria-label="The ASPIRE glasses, turning as you scroll">
-  <div class="scene-track" id="sceneTrack">
-    <div class="scene-stage" id="sceneStage">
-      <canvas class="scene-ambient" id="sceneAmbient" width="48" height="37" aria-hidden="true"></canvas>
-      <video class="scene-video" id="sceneVideo" src="aspire-scrub.mp4" poster="aspire-glasses-poster.jpg" muted playsinline preload="auto" disablepictureinpicture tabindex="-1" aria-hidden="true"></video>
-      <div class="scene-vignette"></div>
-      <div class="scene-cue" id="sceneCue" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience" style="padding-top:40px">
-  <div class="container">
-    <div class="kicker reveal">The experience</div>
-    <h2 class="reveal d1">It should feel like talking to someone, not operating a machine.</h2>
-
-    <div class="tabset reveal d2">
-      <div class="tabbar">
-        <button class="tab active" data-target="exp-listen">LISTEN</button>
-        <button class="tab" data-target="exp-see">SEE</button>
-        <button class="tab" data-target="exp-understand">UNDERSTAND</button>
-        <button class="tab" data-target="exp-act">ACT</button>
-      </div>
-
-      <div class="panel active" id="exp-listen">
-        <div class="panel-grid">
-          <div>
-            <h3>Just talk.</h3>
-            <p>You shouldn't have to learn a command language to use your own assistant. ASPIRE is built around natural conversation: ask something, describe something, or tell VIPER what you want to happen.</p>
-            <p>Say the wake word, speak the way you would to a friend, and let go. The glasses work out when you've finished.</p>
-          </div>
-          <div class="feature-list">
-            <div class="feature"><b>Wake → listen → respond</b><span>A deliberate interaction loop instead of an always-on cloud microphone.</span></div>
-            <div class="feature"><b>Voice-first output</b><span>Replies are written to be heard, not read: short, spoken and natural.</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" id="exp-see">
-        <div class="panel-grid">
-          <div>
-            <h3>Your point of view becomes context.</h3>
-            <p>The camera changes the relationship between you and the AI. Instead of describing a thing and hoping the model understands, you let it look at the thing with you.</p>
-            <p>Read a sign. Understand a screen. Ask about an object. Translate something in front of you. The image isn't an attachment. <strong>It's part of the conversation.</strong></p>
-          </div>
-          <div class="feature-list">
-            <div class="feature"><b>First-person vision</b><span>The camera sees from the same perspective as the wearer.</span></div>
-            <div class="feature"><b>Visual translation</b><span>Ask VIPER to read or translate any text you can see.</span></div>
-            <div class="feature"><b>Face Sense</b><span>Tell Aspire to remember someone and it recognises them next time, with their context attached.</span></div>
-<div class="feature"><b>Focused answers</b><span>The reply is about the thing that matters, not a description of everything in frame.</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" id="exp-understand">
-        <div class="panel-grid">
-          <div>
-            <h3>The interesting part isn't seeing. It's knowing why you're showing it.</h3>
-            <p>A camera can capture a picture. An assistant needs to understand the question around that picture.</p>
-            <p>VIPER combines your spoken intent with what the camera sees, so the same sensor supports completely different requests. “What is this?” is different from “Translate this,” which is different from “Does this code look right?”</p>
-          </div>
-          <div class="feature-list">
-            <div class="feature"><b>Multimodal interaction</b><span>Voice and vision work together as one feature, not two.</span></div>
-            <div class="feature"><b>Context-aware reasoning</b><span>The model answers your actual question rather than narrating the scene.</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel" id="exp-act">
-        <div class="panel-grid">
-          <div>
-            <h3>And sometimes, the right answer isn't an answer.</h3>
-            <p>VIPER turns intention into action. Ask for a photo and it captures one. Ask about your inbox and it reads your inbox, instead of pretending it already knows what's in it.</p>
-            <p>That is the step from chatbot to assistant: <strong>understanding what should happen next.</strong></p>
-          </div>
-          <div class="feature-list">
-            <div class="feature"><b>Take a photo</b><span>Trigger the camera from a natural voice request.</span></div>
-            <div class="feature"><b>Messages &amp; calls</b><span>WhatsApp, SMS, Instagram DMs and phone calls, started by voice in about two seconds.</span></div>
-<div class="feature"><b>Digital tools</b><span>Email, calendar, maps, music, cloud storage and more, all by voice.</span></div>
-            <div class="feature"><b>Action-aware replies</b><span>Do the task first, then tell you about it in plain language.</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- interactive demo -->
-    <div class="demo reveal" id="demo">
-      <div class="demo-top"><span><i></i>MEET VIPER · SEE IT IN ACTION</span><span>illustrative</span></div>
-      <div class="demo-body">
-        <div class="chips" id="chips">
-          <small>TRY A REQUEST</small>
-          <button class="chip active" data-s="identify">“What is this?”</button>
-          <button class="chip" data-s="translate">“Translate this sign.”</button>
-          <button class="chip" data-s="code">“Does this code look right?”</button>
-          <button class="chip" data-s="mail">“Read my latest email.”</button>
-          <button class="chip" data-s="nav">“How long to get home?”</button>
-          <button class="chip" data-s="msg">“WhatsApp Mom I’m late.”</button>
-<button class="chip" data-s="ig">“Reply to Riya on Instagram.”</button>
-<button class="chip" data-s="call">“Call Dad.”</button>
-<button class="chip" data-s="face">“Remember this person.”</button>
-<button class="chip" data-s="photo">“Take a photo.”</button>
-        </div>
-        <div class="stream" id="stream" aria-live="polite"></div>
-      </div>
-      <div class="demo-foot">A walkthrough of how a request flows through ASPIRE. Responses shown are examples, not recordings.</div>
-    </div>
-  </div>
-</section>
-
-<!-- CAPABILITIES -->
-<section id="capabilities" style="border-top:1px solid var(--line);background:linear-gradient(180deg,var(--bg),#0b0d11)">
-  <div class="container">
-    <div class="center">
-      <div class="kicker reveal">Personal intelligence</div>
-      <h2 class="reveal d1">Everything connected. Right at your ear.</h2>
-      <p class="sub reveal d2">VIPER isn't just a chatbot. It's a reasoning agent wired into the services you already use every day, from your inbox to your WhatsApp, Instagram and phone calls.</p>
-    </div>
-
-    <div class="bento">
-      <div class="cap wide tall hero-cap reveal">
-        <span class="tg">01 · VISION</span>
-        <h3>ASPIRE Vision</h3>
-        <p>Analyses scene details, translates text, and answers visual questions about whatever you're looking at.</p>
-        <div class="mini-reticle"><i></i><span>subject</span></div>
-      </div>
-      <div class="cap reveal d1"><span class="tg">02 · NAVIGATE</span><h3>Live Navigation</h3><p>Real-time traffic ETAs, distances and route summaries from Google Maps, without looking at a screen.</p></div>
-      <div class="cap reveal d2"><span class="tg">03 · REMEMBER</span><h3>Memories</h3><p>Saves facts, reminders and notes on command, and fetches them whenever you ask.</p></div>
-      <div class="cap reveal d1"><span class="tg">04 · MAIL</span><h3>Mail Assistant</h3><p>Reads your latest unread emails, parses senders and subjects, and sends replies hands-free.</p></div>
-      <div class="cap reveal d2"><span class="tg">05 · CALENDAR</span><h3>Calendar</h3><p>Checks your schedule, summarises your day and creates events from natural speech.</p></div>
-      <div class="cap wide reveal"><span class="tg">06 · SEARCH</span><h3>Live Web Search</h3><p>Queries the live internet for up-to-date facts, current events, sports scores and anything that changed since a model was trained.</p></div>
-      <div class="cap reveal d1"><span class="tg">07 · MUSIC</span><h3>Spotify Control</h3><p>Play, pause, skip, see what's playing, shuffle and adjust volume.</p></div>
-      <div class="cap reveal d2"><span class="tg">08 · WEATHER</span><h3>Weather &amp; AQI</h3><p>Live weather, Air Quality Index safety levels and seasonal pollen forecasts.</p></div>
-      <div class="cap reveal d1"><span class="tg">09 · FILES</span><h3>Google Drive Search</h3><p>Finds your cloud documents by name and reads their contents aloud.</p></div>
-      <div class="cap reveal d2"><span class="tg">10 · CAPTURE</span><h3>Vision &amp; Telegram</h3><p>Capture photos from the glasses and push images or translations straight to your phone.</p></div>
-      <div class="cap reveal d3"><span class="tg">11 · NEWS</span><h3>Top Headlines</h3><p>Breaking global headlines and top stories across categories, whenever you want a briefing.</p></div>
-      <div class="cap reveal"><span class="tg">12 · MESSAGES</span><h3>WhatsApp &amp; SMS</h3><p>Say who and what, and Aspire finds the contact, composes the message and sends it in about two seconds.</p></div>
-      <div class="cap reveal d1"><span class="tg">13 · INSTAGRAM</span><h3>Instagram DMs</h3><p>Send new Instagram DMs or reply to an existing conversation, hands-free.</p></div>
-      <div class="cap reveal d2"><span class="tg">14 · CALLS</span><h3>Phone Calls</h3><p>“Call Dad.” Aspire matches the contact and starts the call without you touching your phone.</p></div>
-      <div class="cap wide reveal d3"><span class="tg">15 · FACE SENSE</span><h3>Face Sense</h3><p>Recognises and remembers familiar people using 512-dimensional facial embeddings, with a reported 96% recognition accuracy, and links them to personalised context.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- SPEED -->
-<section id="speed" class="perf">
-  <div class="container">
-    <div class="kicker reveal">Performance · V1 → V2</div>
-    <h2 class="reveal d1">The same idea. <span class="grad">Up to four times faster.</span></h2>
-    <p class="sub reveal d2">On a wearable, speed isn't a spec. It's the whole experience. A pause of fourteen seconds isn't a pause, it's the moment you give up and reach for your phone. V2 was about removing that moment.</p>
-
-    <div class="perf-grid">
-      <div class="perf-card reveal">
-        <span class="tg">VISION QUERIES</span>
-        <h3>“What am I looking at?”</h3>
-        <p>Capture a frame, understand the question, look, reason, speak.</p>
-        <div class="big"><span class="num grad">~4×</span><span class="unit">14s → 3–4s</span></div>
-        <div class="bars" data-bars>
-          <div class="bar-row"><div class="lbl"><span>V1</span><b>~14 s</b></div><div class="track"><div class="fill v1" data-w="93.3"></div></div></div>
-          <div class="bar-row"><div class="lbl"><span>V2</span><b>3–4 s</b></div><div class="track"><div class="fill v2" data-w="26.7"></div></div></div>
-        </div>
-        <div class="axis"><span>0s</span><span>5s</span><span>10s</span><span>15s</span></div>
-      </div>
-
-      <div class="perf-card reveal d1">
-        <span class="tg">VOICE-ONLY QUERIES</span>
-        <h3>“What's on my calendar?”</h3>
-        <p>Hear the request, decide, act, answer out loud.</p>
-        <div class="big"><span class="num grad">~2×</span><span class="unit">4–5s → 2–3s</span></div>
-        <div class="bars" data-bars>
-          <div class="bar-row"><div class="lbl"><span>V1</span><b>4–5 s</b></div><div class="track"><div class="fill v1" data-w="33.3"></div></div></div>
-          <div class="bar-row"><div class="lbl"><span>V2</span><b>2–3 s</b></div><div class="track"><div class="fill v2" data-w="20"></div></div></div>
-        </div>
-        <div class="axis"><span>0s</span><span>5s</span><span>10s</span><span>15s</span></div>
-      </div>
-    </div>
-    <p class="perf-note">Both charts share one scale so the difference is honest. Bars show the slower end of each range. Figures are approximate, measured on the working prototype.</p>
-
-    <h3 class="h-small reveal">What changed between V1 and V2.</h3>
-    <div class="changes">
-      <div class="change reveal"><span class="n">01</span><h4>Connections kept warm</h4><p>V1 paid the cost of opening a fresh connection on every request. V2 reuses live connections and warms them up ahead of time, so the first byte doesn't wait on a handshake.</p></div>
-      <div class="change reveal d1"><span class="n">02</span><h4>Speak first, log later</h4><p>Saving photos and conversation history used to sit in the critical path. Now ASPIRE answers you first and does the bookkeeping afterwards.</p></div>
-      <div class="change reveal d2"><span class="n">03</span><h4>A shorter wait at the end</h4><p>The end-of-speech window is tighter, so the glasses stop listening sooner once you've actually finished talking.</p></div>
-      <div class="change reveal d3"><span class="n">04</span><h4>Right-sized frames</h4><p>Smaller camera frames mean less to capture, move and process, without losing what the model needs to answer well.</p></div>
-      <div class="change reveal d4"><span class="n">05</span><h4>Talk while thinking</h4><p>Replies are turned into speech sentence by sentence, so you hear the first words while the rest is still being prepared.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- QUOTE -->
-<section class="quote">
-  <div class="container">
-    <blockquote class="reveal">“The goal was never to put an AI inside a pair of glasses. The goal was to make the glasses feel like the most natural place for an AI to live.”</blockquote>
-    <cite class="reveal d1">— Anhad Jaj, on ASPIRE</cite>
-  </div>
-</section>
-
-<!-- INTELLIGENCE -->
-<section id="intelligence" style="padding-top:20px">
-  <div class="container">
-    <div class="kicker reveal">The intelligence</div>
-    <h2 class="reveal d1">ASPIRE is the body. VIPER is the mind.</h2>
-
-    <div class="duo">
-      <div class="duo-card reveal">
-        <div><span class="tg">THE BODY</span><h3>ASPIRE</h3></div>
-        <p>The physical system: the frame, camera, microphone, audio hardware and embedded controller that sit with you in the real world and turn light and sound into signals.</p>
-      </div>
-      <div class="duo-card mind reveal d1">
-        <div><span class="tg">THE MIND</span><h3>VIPER</h3></div>
-        <p>The intelligence layer. Its job isn't just to generate text. It decides what kind of response you need, whether visual context matters, whether a tool should be called, and when an action should replace another sentence.</p>
-      </div>
-    </div>
-    <p class="pull reveal" style="margin-top:70px">All the complexity should disappear behind one very simple interface: <span class="grad">talk to it.</span></p>
-  </div>
-</section>
-
-<!-- TECHNOLOGY -->
-<section id="technology" class="tech">
-  <div class="container">
-    <div class="kicker reveal">For the curious</div>
-    <h2 class="reveal d1">The engineering underneath.</h2>
-    <p class="sub reveal d2">If the first half is the story of what ASPIRE feels like, this is the part for people who want to know how I actually made it work.</p>
-
-    <div class="tabset reveal d2">
-      <div class="tabbar">
-        <button class="tab active" data-target="tech-hardware">HARDWARE</button>
-        <button class="tab" data-target="tech-audio">AUDIO</button>
-        <button class="tab" data-target="tech-vision">VISION</button>
-        <button class="tab" data-target="tech-agent">AI &amp; TOOLS</button>
-        <button class="tab" data-target="tech-architecture">ARCHITECTURE</button>
-      </div>
-
-      <div class="panel active" id="tech-hardware">
-        <div class="tech-copy"><h3>A tiny computer with very non-tiny ambitions.</h3><p>The prototype uses a Seeed Studio XIAO ESP32-S3 Sense as the embedded core. It provides the camera and microphone interface while staying compact enough to wear.</p><p>The challenge isn't getting each component to work. It's making them work together without turning the glasses into a hot, slow development board strapped to your face.</p></div>
-        <div class="techgrid">
-          <div class="techcard"><b>CONTROLLER</b><p>Seeed XIAO ESP32-S3 Sense with embedded PSRAM.</p></div>
-          <div class="techcard"><b>CAMERA</b><p>OV2640 camera used for first-person visual input.</p></div>
-          <div class="techcard"><b>AUDIO</b><p>Digital microphone on an I2S path, with a dedicated amplifier for output.</p></div>
-        </div>
-      </div>
-
-      <div class="panel" id="tech-audio">
-        <div class="tech-copy"><h3>Listening only when listening matters.</h3><p>Continuous audio streaming is expensive. The firmware uses local voice-activity detection based on RMS energy to know when speech is actually happening.</p><p>Audio is processed in blocks, with a loudness threshold and trailing silence deciding where a turn ends, and a hard cap on recording time. “Always listening” becomes a controlled interaction loop.</p></div>
-        <div class="techgrid">
-          <div class="techcard"><b>LOCAL VAD</b><p>RMS-based speech detection runs on the device, before anything is transmitted.</p></div>
-          <div class="techcard"><b>TURN CONTROL</b><p>Speech debounce and trailing silence prevent accidental short triggers.</p></div>
-          <div class="techcard"><b>FAIL-SAFE</b><p>A maximum recording duration prevents uncontrolled buffer growth.</p></div>
-        </div>
-      </div>
-
-      <div class="panel" id="tech-vision">
-        <div class="tech-copy"><h3>The camera is not an accessory. It's a sensor for context.</h3><p>Each OV2640 frame is captured into available memory and passed through the vision pipeline. Because of how the sensor is mounted, the system explicitly accounts for its orientation when interpreting images.</p><p>Resolution and image handling are deliberately constrained around the latency and memory budget of a wearable, rather than chasing maximum image quality.</p></div>
-        <div class="techgrid">
-          <div class="techcard"><b>CAPTURE</b><p>Frames are handled directly by the embedded system.</p></div>
-          <div class="techcard"><b>ORIENTATION</b><p>Sensor configuration and model-level instructions compensate for the mounting geometry.</p></div>
-          <div class="techcard"><b>VISION RULES</b><p>VIPER is instructed not to invent visual details and to focus on the requested subject.</p></div>
-        </div>
-      </div>
-
-      <div class="panel" id="tech-agent">
-        <div class="tech-copy"><h3>From “answer me” to “do this.”</h3><p>The assistant is given a set of executable tools alongside your request. If the model decides a tool is appropriate, it returns a structured action which the system executes.</p><p>That's what lets one voice interface move between conversation and action: retrieving information, using connected services, or triggering the camera.</p></div>
-        <div class="techgrid">
-          <div class="techcard"><b>TOOL CALLING</b><p>Structured model outputs map spoken intent to executable functions.</p></div>
-          <div class="techcard"><b>CONNECTED SERVICES</b><p>Integrations include email, calendar, maps, music, search, cloud storage, WhatsApp, SMS, Instagram DMs and phone calls.</p></div>
-          <div class="techcard"><b>LOCAL ACTIONS</b><p>Hardware operations such as photo capture can be short-circuited locally, with no round trip.</p></div>
-        </div>
-      </div>
-
-      <div class="panel" id="tech-architecture">
-        <div class="tech-copy"><h3>The hard part was deciding what the glasses should <em>not</em> do.</h3><p>An ESP32-S3 is powerful for its size, but it isn't a miniature data centre. Instead of forcing every AI workload onto the frame, ASPIRE treats the glasses as a fast sensory endpoint and sends heavier reasoning to external compute.</p><p>That keeps the wearable focused on what it's uniquely good at: sensing the world, capturing your intent and responding quickly. It also lets the intelligence side improve independently of the hardware.</p></div>
-        <div class="techgrid">
-          <div class="techcard"><b>EDGE</b><p>Wake detection, audio capture, camera control and hardware actions.</p></div>
-          <div class="techcard"><b>REASONING</b><p>Large-model inference handles language, multimodal understanding and tool selection.</p></div>
-          <div class="techcard"><b>ORCHESTRATION</b><p>Keeping sensing and intelligence separate leaves room for a more modular, MCP-based architecture.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="arch reveal">
-      <svg viewBox="0 0 960 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow from the glasses to VIPER and back">
-        <defs>
-          <linearGradient id="ag" x1="0" x2="1"><stop offset="0" stop-color="#7aa7ff"/><stop offset="1" stop-color="#6fe0b4"/></linearGradient>
-        </defs>
-        <g fill="#0f1114" stroke="#2b3038">
-          <rect x="10" y="60" width="200" height="110" rx="18"/>
-          <rect x="280" y="60" width="200" height="110" rx="18"/>
-          <rect x="550" y="60" width="200" height="110" rx="18" stroke="#b39aff" stroke-opacity=".55"/>
-          <rect x="820" y="60" width="130" height="110" rx="18"/>
-        </g>
-        <text class="arch-t" x="30" y="100">ASPIRE GLASSES</text>
-        <text class="arch-s" x="30" y="124">camera · mic · speaker</text>
-        <text class="arch-s" x="30" y="142">wake · VAD · capture</text>
-        <text class="arch-t" x="300" y="100">NETWORK LAYER</text>
-        <text class="arch-s" x="300" y="124">warm connections</text>
-        <text class="arch-s" x="300" y="142">image + audio upload</text>
-        <text class="arch-t" x="570" y="100" fill="#b39aff">VIPER</text>
-        <text class="arch-s" x="570" y="124">speech → reasoning</text>
-        <text class="arch-s" x="570" y="142">tools → streamed speech</text>
-        <text class="arch-t" x="840" y="100">YOUR WORLD</text>
-        <text class="arch-s" x="840" y="124">mail · maps</text>
-        <text class="arch-s" x="840" y="142">music · files</text>
-
-        <g stroke="url(#ag)" stroke-width="2" fill="none">
-          <path class="flow" d="M210 100 H280"/><path class="flow" d="M480 100 H550"/><path class="flow" d="M750 100 H820"/>
-        </g>
-        <g stroke="#59606c" stroke-width="1.5" fill="none" stroke-dasharray="4 5">
-          <path d="M650 170 V200 H110 V170"/>
-        </g>
-        <text class="arch-s" x="300" y="218">spoken reply, streamed back sentence by sentence</text>
-      </svg>
-    </div>
-
-    <div class="specs reveal">
-      <div class="spec-row"><span>CONTROLLER</span><span>Seeed Studio XIAO ESP32-S3 Sense (dual-core, PSRAM)</span></div>
-      <div class="spec-row"><span>CAMERA</span><span>OV2640, first-person capture with orientation compensation</span></div>
-      <div class="spec-row"><span>MICROPHONE</span><span>Digital I2S microphone with on-device RMS voice-activity detection</span></div>
-      <div class="spec-row"><span>AUDIO OUT</span><span>Speaker driven by a dedicated I2S amplifier</span></div>
-      <div class="spec-row"><span>CONNECTIVITY</span><span>2.4 GHz Wi-Fi to the VIPER reasoning backend</span></div>
-      <div class="spec-row"><span>ASSISTANT</span><span>VIPER · voice + vision + tool calling</span></div>
-      <div class="spec-row"><span>COMMUNICATION</span><span>WhatsApp, SMS, Instagram DMs and phone calls by voice (~2 s)</span></div>
-<div class="spec-row"><span>FACE SENSE</span><span>512-dimensional facial embeddings · 96% reported recognition accuracy</span></div>
-<div class="spec-row"><span>LATENCY (V3)</span><span>~4–5 s vision queries · ~3 s voice queries · ~2 s messages and calls</span></div>
-<div class="spec-row"><span>LATENCY (V2)</span><span>~3–4 s vision queries · ~2–3 s voice-only queries</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- CLOSING -->
-<section class="closing">
-  <div class="container">
-    <div class="kicker center reveal" style="justify-content:center"><span>ASPIRE · A project by Anhad Jaj</span></div>
-    <h2 class="reveal d1">From a sketch to a pair of glasses that <span class="grad">see, hear and respond.</span></h2>
-    <p class="sub reveal d2">V1 proved it could work. V2 made it feel natural. V3 makes it faster, more perceptive and able to reach out for you. Building in public, one iteration at a time.</p>
-    <div class="cta-row reveal d3">
-      <a class="btn primary" href="mailto:lionel.anhad@gmail.com">Get in touch</a>
-      <a class="btn ghost" href="https://www.linkedin.com/in/anhad-jaj-519720282" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn ghost" href="https://x.com/JajAnhad" target="_blank" rel="noopener">Twitter / X</a>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<footer>
-  <div class="container footer">
-    <div>ASPIRE — AI Smart Glasses · Designed, engineered and iterated by <a href="https://www.linkedin.com/in/anhad-jaj-519720282" target="_blank" rel="noopener"><b style="color:#fff">Anhad Jaj</b></a></div>
-    <div class="mono">ARCHITECTURE: ASPIRE / INTELLIGENCE: VIPER</div>
-  </div>
-</footer>
-
-<script>
+/* ASPIRE upgrade layer: polish + app-style icons + Wardbook + Face Sense.
+   Add this line right before </body> in your page, after the existing <script>:
+   <script src="aspire-upgrade.js"></script> */
 (function(){
-  /* nav */
-  var nav=document.getElementById('nav');
-  function onScroll(){nav.classList.toggle('scrolled',window.scrollY>20)}
-  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+var css=`
+::selection{background:rgba(122,167,255,.35)}
+html{scrollbar-color:#2b3038 #050607}
+#prog{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);z-index:1100;background:linear-gradient(90deg,#7aa7ff,#b39aff,#6fe0b4)}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;width:55vw;height:55vw;border-radius:50%;filter:blur(110px);opacity:.16;animation:drift 26s ease-in-out infinite alternate}
+.aurora i:nth-child(1){background:#4f6bff;left:-15vw;top:-10vw}
+.aurora i:nth-child(2){background:#9b5cff;right:-20vw;top:35vh;animation-delay:-9s}
+.aurora i:nth-child(3){background:#19d3a2;left:20vw;bottom:-30vw;opacity:.09;animation-delay:-16s}
+@keyframes drift{to{transform:translate(8vw,6vh) scale(1.15)}}
+.hero:after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000,transparent 70%);mask-image:radial-gradient(ellipse at 50% 40%,#000,transparent 70%)}
+.wordmark.grad{background:linear-gradient(110deg,#fff 10%,#9bbcff 32%,#c0a8ff 52%,#6fe0b4 72%,#fff 92%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;animation:shine 9s linear infinite}
+@keyframes shine{to{background-position:220% center}}
+.btn.primary,.nav-cta{background:linear-gradient(120deg,#fff,#d9e5ff)}
+.cap,.change,.feature,.duo-card,.perf-card,.techcard,.hs{background-image:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.008))}
+.marquee{overflow:hidden;border-block:1px solid var(--line);background:rgba(255,255,255,.015);padding:20px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mq{display:flex;width:max-content;animation:mq 40s linear infinite;font:600 12.5px "JetBrains Mono",monospace;letter-spacing:.16em;color:var(--muted)}
+.mq .g{display:flex;gap:44px;padding-right:44px}
+.mq em{color:var(--accent);font-style:normal}
+@keyframes mq{to{transform:translateX(-50%)}}
 
-  /* reveal + bars + counters */
-  function countUp(el){
-    var target=parseFloat(el.dataset.count),suffix=el.dataset.suffix||'',t0=null,dur=1400;
-    function step(ts){
-      if(!t0)t0=ts;var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);
-      el.textContent=Math.round(target*e)+suffix;
-      if(p<1)requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if(!en.isIntersecting)return;
-      var el=en.target;el.classList.add('in');
-      el.querySelectorAll('[data-count]').forEach(countUp);
-      if(el.matches('[data-count]'))countUp(el);
-      el.querySelectorAll('.fill').forEach(function(f,i){
-        setTimeout(function(){f.style.width=f.dataset.w+'%'},250+i*350);
-      });
-      io.unobserve(el);
-    });
-  },{threshold:.15});
-  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+/* app-style icons */
+.bento .cap{transition:border-color .3s,opacity .9s cubic-bezier(.2,.7,.2,1),transform .35s ease-out}
+.bento .cap.in{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px))}
+.bento .cap:hover{--ty:-4px}
+.cap .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:30px}
+.cap .tg{margin:0!important;padding-top:4px}
+.ico{position:relative;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(145deg,var(--c1),var(--c2));box-shadow:0 14px 28px -10px var(--c2),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -8px 14px rgba(0,0,0,.2);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.ico:after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.3),transparent 48%);pointer-events:none}
+.ico svg{width:27px;height:27px;position:relative;z-index:1;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.cap:hover .ico{transform:scale(1.1) rotate(-4deg)}
+.cap.hero-cap .ico{width:68px;height:68px;border-radius:20px}.cap.hero-cap .ico svg{width:33px;height:33px}
+.new{font:700 9px "JetBrains Mono",monospace;letter-spacing:.12em;vertical-align:middle;margin-left:10px;padding:3px 8px;border-radius:999px;background:linear-gradient(120deg,var(--c1),var(--c2));color:#fff}
+.mini-chat{margin-top:20px;display:grid;gap:8px}
+.mini-chat i{font-style:normal;font-size:12.5px;padding:8px 12px;border-radius:14px 14px 14px 4px;background:rgba(255,255,255,.07);color:var(--soft);width:fit-content}
+.mini-chat i.out{justify-self:end;border-radius:14px 14px 4px 14px;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff}
+.mini-id{margin-top:20px;display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--line2);border-radius:14px;font-size:13px;color:var(--soft)}
+.mini-id .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.mini-id small{color:var(--muted);margin-left:auto}
 
-  /* tabs (scoped per tabset) */
-  document.querySelectorAll('.tabset').forEach(function(set){
-    var tabs=set.querySelectorAll('.tab'),panels=set.querySelectorAll('.panel');
-    tabs.forEach(function(tab){
-      tab.addEventListener('click',function(){
-        tabs.forEach(function(t){t.classList.toggle('active',t===tab)});
-        panels.forEach(function(p){p.classList.toggle('active',p.id===tab.dataset.target)});
-      });
-    });
+/* new section */
+.duo2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:60px}
+.nc{border:1px solid var(--line);border-radius:28px;padding:38px;background:linear-gradient(155deg,rgba(255,255,255,.05),rgba(255,255,255,.01));position:relative;overflow:hidden}
+.nc:before{content:"";position:absolute;width:340px;height:340px;right:-120px;top:-140px;border-radius:50%;background:radial-gradient(circle,var(--c2),transparent 70%);opacity:.22;pointer-events:none}
+.nc h3{font-size:34px;letter-spacing:-.04em;margin:22px 0 10px}
+.nc p{font-size:15.5px}
+.nc ul{list-style:none;display:grid;gap:10px;margin-top:22px}
+.nc li{display:flex;gap:12px;font-size:14.5px;color:var(--soft)}
+.nc li:before{content:"";flex:none;width:7px;height:7px;margin-top:9px;border-radius:50%;background:var(--c1);box-shadow:0 0 10px var(--c1)}
+.nc li b{color:#fff;font-weight:600}
+.profile{display:flex;gap:20px;align-items:center;margin-top:24px;padding:16px;border:1px solid var(--line2);border-radius:20px;background:rgba(5,6,7,.55)}
+.av{position:relative;flex:none;width:100px;height:116px;border-radius:14px;background:linear-gradient(160deg,#1b2030,#0c0e14);overflow:hidden}
+.av svg{width:100%;height:100%;display:block}
+.av i{position:absolute;width:16px;height:16px;border:2px solid #2dd4bf}
+.av i:nth-of-type(1){left:6px;top:6px;border-right:0;border-bottom:0}
+.av i:nth-of-type(2){right:6px;top:6px;border-left:0;border-bottom:0}
+.av i:nth-of-type(3){left:6px;bottom:6px;border-right:0;border-top:0}
+.av i:nth-of-type(4){right:6px;bottom:6px;border-left:0;border-top:0}
+.av u{position:absolute;left:0;right:0;height:2px;background:#2dd4bf;box-shadow:0 0 14px #2dd4bf;animation:vs 3s ease-in-out infinite}
+@keyframes vs{0%,100%{top:8%}50%{top:90%}}
+.pf b{font-size:20px;display:block;letter-spacing:-.02em}
+.pf small{font:500 11px "JetBrains Mono",monospace;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tags span{font-size:11.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--line2);color:var(--soft)}
+.tags span.h{border-color:rgba(45,212,191,.45);color:#7ff0dc}
+.priv{margin-top:18px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+#demo2{margin-top:24px}
+.nc.full{grid-column:1/-1}
+.nc.full ul{grid-template-columns:repeat(2,1fr);column-gap:34px}
+@media(max-width:720px){.nc.full ul{grid-template-columns:1fr}}
+@media(max-width:980px){.duo2{grid-template-columns:1fr}}
+@media(max-width:720px){.nc{padding:28px}.profile{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){.aurora i,.mq,.av u,.wordmark.grad{animation:none!important}}
+`;
+var st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+var $=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ambient layers */
+document.body.insertAdjacentHTML('afterbegin','<div id="prog"></div><div class="aurora"><i></i><i></i><i></i></div>');
+var prog=$('#prog');
+function pg(){var h=document.documentElement.scrollHeight-innerHeight;prog.style.transform='scaleX('+(h>0?Math.min(1,scrollY/h):0)+')'}
+addEventListener('scroll',pg,{passive:true});pg();
+
+/* copy tweaks */
+var pill=$('.pill');if(pill)pill.innerHTML='<b>V3</b> The third generation of ASPIRE';
+$$('.hs b').forEach(function(b){if(/\d+ cap/.test(b.textContent))b.textContent='16 capabilities'});
+var nl=$('.navlinks');if(nl)nl.insertAdjacentHTML('beforeend','<a href="#new">Messages &amp; Faces</a>');
+
+/* marquee */
+var words=['SEES','HEARS','RECOGNISES FACES','SENDS WHATSAPPS','MAKES CALLS','REPLIES ON INSTAGRAM','POSTS ON WARDBOOK','NAVIGATES','READS MAIL','REMEMBERS','PLAYS MUSIC','TRANSLATES','TAKES PHOTOS'];
+var g='<div class="g">'+words.map(function(w){return '<span>'+w+'</span><em>◆</em>'}).join('')+'</div>';
+var hero=$('.hero');if(hero)hero.insertAdjacentHTML('afterend','<div class="marquee" aria-hidden="true"><div class="mq">'+g+g+'</div></div>');
+
+/* icons */
+function ic(p){return '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'}
+var I={
+vision:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+nav:'<path d="M3 11l18-8-8 18-2-8-8-2z"/>',
+mem:'<path d="M6 3h12v18l-6-4-6 4z"/><path d="M12 7v4M10 9h4"/>',
+mail:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/>',
+cal:'<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/><circle cx="12" cy="15" r="1.4"/>',
+web:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/>',
+music:'<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
+wx:'<circle cx="8" cy="8" r="3"/><path d="M8 2v1M2 8h1M3.8 3.8l.7.7M12.2 3.8l-.7.7"/><path d="M8 20a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.3 3.3 0 0118 20z"/>',
+drive:'<path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>',
+cam:'<path d="M4 8h3l2-3h6l2 3h3a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z"/><circle cx="12" cy="13" r="3.5"/>',
+news:'<path d="M5 4h12a2 2 0 012 2v14H7a2 2 0 01-2-2z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
+ward:'<path d="M21 12a8 8 0 01-11.5 7.2L4 20l1.2-4.4A8 8 0 1121 12z"/><path d="M12 15.5s-3-1.8-3-4a1.7 1.7 0 013-.8 1.7 1.7 0 013 .8c0 2.2-3 4-3 4z"/>',
+msg:'<path d="M21 12a8 8 0 01-11.5 7.2L4 20l1.2-4.4A8 8 0 1121 12z"/><path d="M8.5 11h7M8.5 14h4"/>',
+ig:'<rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r=".9" fill="#fff"/>',
+phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A15 15 0 013 6a2 2 0 012-2z"/>',
+face:'<path d="M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3"/><path d="M9 10v1M15 10v1M9.5 15c1.5 1.3 3.5 1.3 5 0"/>'};
+
+/* capabilities: 16 cards with app icons */
+var caps=[
+['vision','01 · VISION','ASPIRE Vision','Analyses scene details, translates text, and answers visual questions about whatever you’re looking at.','#6d8dff','#4f46e5','wide tall hero-cap','<div class="mini-reticle"><i></i><span>subject</span></div>'],
+['nav','02 · NAVIGATE','Live Navigation','Real-time traffic ETAs, distances and route summaries from Google Maps, without looking at a screen.','#2dd4bf','#0f766e'],
+['msg','03 · MESSAGES','WhatsApp &amp; SMS','Say who and what. Aspire finds the contact, writes the message and sends it in about two seconds.','#4ade80','#128c7e','','<div class="mini-chat"><i>Where are you?</i><i class="out">Running ten minutes late.</i></div>',1],
+['phone','04 · CALLS','Phone Calls','“Call Dad.” Aspire matches the contact and starts the call without you touching your phone.','#38bdf8','#0369a1','','<div class="mini-id"><span class="dot"></span><b>Calling Dad…</b><small>~2 s</small></div>',1],
+['ig','05 · INSTAGRAM','Instagram DMs','Send new Instagram DMs or reply to an existing conversation, hands-free.','#fbbf24','#d62976','','',1],
+['mem','06 · REMEMBER','Memories','Saves facts, reminders and notes on command, and fetches them whenever you ask.','#c084fc','#7e22ce'],
+['mail','07 · MAIL','Mail','Reads your latest unread emails, parses senders and subjects, and sends replies hands-free.','#60a5fa','#2563eb'],
+['cal','08 · CALENDAR','Calendar','Checks your schedule, summarises your day and creates events from natural speech.','#fb7185','#e11d48'],
+['music','09 · MUSIC','Spotify','Play, pause, skip, see what’s playing, shuffle and adjust volume.','#4ade80','#16a34a'],
+['web','10 · SEARCH','Live Web Search','Queries the live internet for up-to-date facts, current events, sports scores and anything that changed since a model was trained.','#22d3ee','#0e7490','wide'],
+['wx','11 · WEATHER','Weather &amp; AQI','Live weather, Air Quality Index safety levels and seasonal pollen forecasts.','#facc15','#f97316'],
+['drive','12 · FILES','Google Drive Search','Finds your cloud documents by name and reads their contents aloud.','#a3e635','#4d7c0f'],
+['ward','13 · SOCIAL','Wardbook','Run your social life by voice. Post updates, send DMs, share photos from the glasses, read your messages and reply, all hands-free.','#ff6b9a','#7c3aed','wide','<div class="mini-chat"><i>Anhad Jaj: Free on Saturday?</i><i class="out">Yes, Saturday works.</i></div>',1],
+['face','14 · PEOPLE','Face Sense','Recognises and remembers familiar people. Say “remember this person” and it stores a 512-dimensional facial embedding, then identifies them later with a reported 96% accuracy, along with their name, hobbies and context.','#2dd4bf','#6366f1','wide','<div class="mini-id"><span class="dot"></span><b>Anhad Jaj</b><small>Programmer · Athlete</small></div>',1],
+['cam','15 · CAPTURE','Vision &amp; Telegram','Capture photos from the glasses and push images or translations straight to your phone.','#f472b6','#be185d','wide'],
+['news','16 · NEWS','Top Headlines','Breaking global headlines and top stories across categories, whenever you want a briefing.','#94a3b8','#475569','wide']
+];
+var bento=$('.bento');
+if(bento){bento.innerHTML=caps.map(function(c,i){
+  return '<div class="cap '+(c[6]||'')+' reveal d'+(i%3+1)+'" style="--c1:'+c[4]+';--c2:'+c[5]+'"><div class="top"><span class="ico">'+ic(I[c[0]])+'</span><span class="tg">'+c[1]+'</span></div><h3>'+c[2]+(c[8]?'<span class="new">NEW</span>':'')+'</h3><p>'+c[3]+'</p>'+(c[7]||'')+'</div>'}).join('');
+  $$('.cap',bento).forEach(function(c){
+    c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();
+      c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');
+      c.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*5+'deg');c.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*5+'deg')});
+    c.addEventListener('pointerleave',function(){c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')});
   });
+}
 
-  /* full-bleed scroll scene */
-(function(){
-  var track=document.getElementById('sceneTrack'),stage=document.getElementById('sceneStage'),
-      v=document.getElementById('sceneVideo'),cv=document.getElementById('sceneAmbient'),cue=document.getElementById('sceneCue');
-  if(!track||!stage||!v)return;
-  var ctx=cv&&cv.getContext&&cv.getContext('2d');
-  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var dur=0,cur=0,ready=false,pending=null,raf=null,lastTs=0,lastAmb=0;
+/* Wardbook + Face Sense showcase */
+var sil='<svg viewBox="0 0 120 140"><circle cx="60" cy="52" r="26" fill="rgba(255,255,255,.1)"/><path d="M14 140c4-34 26-48 46-48s42 14 46 48z" fill="rgba(255,255,255,.08)"/></svg>';
+var showcase='<section id="new"><div class="container">'
++'<div class="kicker reveal">New · Personal Intelligence</div>'
++'<h2 class="reveal d1">Now it knows your people. <span class="grad">And talks to them for you.</span></h2>'
++'<p class="sub reveal d2">Three abilities turn ASPIRE from a tool you use into someone who’s with you: a voice-controlled social life, a way to message and call anyone, and a memory for every face that matters.</p>'
++'<div class="duo2">'
++'<div class="nc reveal" style="--c1:#ff6b9a;--c2:#7c3aed"><span class="ico" style="--c1:#ff6b9a;--c2:#7c3aed">'+ic(I.ward)+'</span><h3>Wardbook</h3><p>Your social network, spoken. No feed to scroll, no keyboard to find.</p>'
++'<ul><li><span><b>Post</b> a thought or a photo just by saying it.</span></li><li><span><b>DM</b> anyone and ask VIPER to word it for you.</span></li><li><span><b>Share</b> what the glasses see straight to your story.</span></li><li><span><b>Read &amp; reply</b> to messages out loud, then answer in your own voice.</span></li></ul></div>'
++'<div class="nc reveal d1" style="--c1:#2dd4bf;--c2:#6366f1"><span class="ico" style="--c1:#2dd4bf;--c2:#6366f1">'+ic(I.face)+'</span><h3>Face Sense</h3><p>Look at someone and ask. VIPER already knows who they are.</p>'
++'<div class="profile"><div class="av">'+sil+'<i></i><i></i><i></i><i></i><u></u></div><div class="pf"><b>Anhad Jaj</b><small>MET 4 TIMES · Tennis Ga</small><div class="tags"><span>Warm</span><span>Direct</span><span class="h">Tennis</span><span class="h">Cricket</span></div></div></div>'
++'<ul><li><span><b>Names &amp; personas</b> told quietly in your ear.</span></li><li><span><b>Hobbies</b> and shared interests, for better conversations.</span></li><li><span><b>Remembers</b> the people around you, and where you met.</span></li></ul>'
++'<p class="priv">Consent-first by design: only people you choose to save are remembered, and you can tell VIPER to forget anyone. Profile shown is illustrative.</p></div>'
++'<div class="nc full reveal d2" style="--c1:#4ade80;--c2:#0369a1"><span class="ico" style="--c1:#4ade80;--c2:#0369a1">'+ic(I.msg)+'</span><h3>Messages &amp; Calls<span class="new">V3</span></h3><p>Reach anyone on the app they actually use, without touching your phone.</p>'
++'<ul><li><span><b>WhatsApp &amp; SMS</b> sent by voice in about two seconds.</span></li><li><span><b>Instagram DMs</b>: send new ones or reply to existing threads.</span></li><li><span><b>Phone calls</b> started straight from your contacts.</span></li><li><span><b>Smarter intent</b>: finds the right person and conversation before it acts.</span></li></ul></div></div>'
++'<div class="demo reveal" id="demo2"><div class="demo-top"><span><i></i>WARDBOOK &amp; FACESENSE · SEE IT IN ACTION</span><span>illustrative</span></div><div class="demo-body"><div class="chips" id="chips2"><small>TRY A REQUEST</small>'
++'<button class="chip active" data-s="post">“Post that V3 is live.”</button><button class="chip" data-s="dm">“Message Arjun I’m late.”</button><button class="chip" data-s="story">“Share this on my story.”</button><button class="chip" data-s="read">“Read my messages.”</button><button class="chip" data-s="reply">“Tell Anhad Jaj yes.”</button><button class="chip" data-s="wa">“WhatsApp Mom I’m late.”</button><button class="chip" data-s="ig">“Reply to Riya on Instagram.”</button><button class="chip" data-s="call">“Call Dad.”</button><button class="chip" data-s="who">“Who is that?”</button><button class="chip" data-s="rem">“Remember this person.”</button><button class="chip" data-s="around">“Who’s around me?”</button></div>'
++'<div class="stream" id="stream2" aria-live="polite"></div></div><div class="demo-foot">Names and replies are examples, not recordings.</div></div>'
++'</div></section>';
+var capSec=$('#capabilities');if(capSec)capSec.insertAdjacentHTML('afterend',showcase);
 
-  function progress(){
-    var r=track.getBoundingClientRect(),range=track.offsetHeight-stage.offsetHeight;
-    if(range<=0)return 0;
-    return Math.min(1,Math.max(0,-r.top/range));
-  }
-  function paintAmbient(){
-    var now=performance.now();
-    if(!ctx||now-lastAmb<200||v.readyState<2||!cv.offsetParent)return;
-    lastAmb=now;
-    try{ctx.drawImage(v,0,0,cv.width,cv.height)}catch(e){}
-  }
-  function seek(t){
-    t=Math.min(Math.max(t,0),dur-.001);
-    if(v.seeking){pending=t;return}
-    if(Math.abs(t-v.currentTime)<.001)return;
-    v.currentTime=t;
-  }
-  v.addEventListener('seeked',function(){
-    paintAmbient();
-    if(pending!==null){var t=pending;pending=null;seek(t)}
-  });
+var W=['WAKE','Wake word detected','t-wake'];
+var sc={
+post:[W,['HEARD','“Post that V3 is live.”','t-heard'],['TOOL','Wardbook · publishing post','t-tool'],['SAY','Posted. It’s live on your Wardbook feed.','t-say']],
+dm:[W,['HEARD','“Message Arjun that I’m running ten minutes late.”','t-heard'],['TOOL','Wardbook · sending direct message','t-tool'],['SAY','Sent to Arjun: running ten minutes late.','t-say']],
+story:[W,['HEARD','“Share this on my story.”','t-heard'],['SEE','Frame captured from the glasses','t-see'],['TOOL','Wardbook · uploading photo to story','t-tool'],['SAY','Done. The photo is on your story.','t-say']],
+read:[W,['HEARD','“Read my messages.”','t-heard'],['TOOL','Wardbook · fetching unread DMs','t-tool'],['SAY','Two new messages. Anhad Jaj asks if you’re free Saturday, and Arjun sent a thumbs up. Want to reply?','t-say']],
+reply:[W,['HEARD','“Tell Anhad Jaj yes, Saturday works.”','t-heard'],['TOOL','Wardbook · replying to Anhad Jaj','t-tool'],['SAY','Replied to Anhad Jaj: yes, Saturday works.','t-say']],
+wa:[W,['HEARD','“Send Mom a WhatsApp: running ten minutes late.”','t-heard'],['TOOL','Resolving contact · sending on WhatsApp','t-tool'],['SAY','Sent to Mom on WhatsApp.','t-say']],
+ig:[W,['HEARD','“Reply to Riya on Instagram: sounds great, see you at six.”','t-heard'],['TOOL','Instagram · finding latest DM · replying','t-tool'],['SAY','Replied to Riya on Instagram.','t-say']],
+call:[W,['HEARD','“Call Dad.”','t-heard'],['TOOL','Contacts · matching “Dad” · placing call','t-tool'],['SAY','Calling Dad now.','t-say']],
+who:[W,['HEARD','“Who is that?”','t-heard'],['SEE','Face detected, matching saved people','t-see'],['TOOL','Face Sense · memory lookup','t-tool'],['SAY','That’s Anhad Jaj, from the design meetup. He plays Tennis, Cricket, badminton, and codes AI glasses (A.S.P.I.R.E.).','t-say']],
+rem:[W,['HEARD','“Remember this person. His name is Kabir.”','t-heard'],['SEE','Face captured · generating 512-dimensional embedding','t-see'],['TOOL','Face Sense · saving face and name','t-tool'],['SAY','Got it. I’ll recognise Kabir next time. Anything you’d like me to note about him?','t-say']],
+around:[W,['HEARD','“Who’s around me?”','t-heard'],['SEE','Three faces in view','t-see'],['TOOL','Face Sense · matching against memory','t-tool'],['SAY','Anhad Jaj and Kabir are here. The third person isn’t saved yet.','t-say']]
+};
+var s2=$('#stream2'),tm=[];
+function play(k){tm.forEach(clearTimeout);tm=[];s2.innerHTML='';sc[k].forEach(function(r,i){tm.push(setTimeout(function(){
+  var d=document.createElement('div');d.className='ev';
+  var t=document.createElement('div');t.className='tag '+r[2];t.textContent=r[0];
+  var m=document.createElement('div');m.className='msg'+(r[0]==='SAY'?' say':'');m.textContent=r[1];
+  d.appendChild(t);d.appendChild(m);s2.appendChild(d)},i*650))})}
+var ch=$$('#chips2 .chip');
+ch.forEach(function(c){c.addEventListener('click',function(){ch.forEach(function(x){x.classList.toggle('active',x===c)});play(c.dataset.s)})});
+if(s2)play('post');
 
-  function frame(ts){
-    raf=null;
-    var dt=lastTs?Math.min(100,ts-lastTs):16;lastTs=ts;
-    var p=progress();
-    var target=Math.min(1,Math.max(0,(p-.03)/.94));
-    cur=reduce?target:cur+(target-cur)*(1-Math.exp(-dt/90));
-    if(Math.abs(target-cur)<.0005)cur=target;
-    if(ready)seek(cur*dur);
-    v.style.transform='translate(-50%,-50%) scale('+(1+.05*cur).toFixed(4)+')';
-    if(cue)cue.style.opacity=p>.02?0:1;
-    if(cur!==target)raf=requestAnimationFrame(frame);else lastTs=0;
-  }
-  function kick(){if(!raf)raf=requestAnimationFrame(frame)}
-  window.addEventListener('scroll',kick,{passive:true});
-  window.addEventListener('resize',kick);
-  v.addEventListener('loadeddata',paintAmbient);
-  function onMeta(){dur=v.duration||0;ready=dur>0;kick()}
-  if(v.readyState>=1)onMeta();else v.addEventListener('loadedmetadata',onMeta);
-  var pr=v.play();
-  if(pr&&pr.then)pr.then(function(){v.pause();kick()}).catch(function(){});
-  kick();
+/* reveal for new elements */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+$$('.bento .reveal,#new .reveal').forEach(function(el){io.observe(el)});
 })();
-
-  /* spotlight on capability cards */
-  document.querySelectorAll('.cap').forEach(function(c){
-    c.addEventListener('pointermove',function(e){
-      var r=c.getBoundingClientRect();
-      c.style.setProperty('--mx',(e.clientX-r.left)+'px');
-      c.style.setProperty('--my',(e.clientY-r.top)+'px');
-    });
-  });
-
-  /* interaction preview */
-  var scenes={
-    identify:[['WAKE','Wake word detected','t-wake'],['HEARD','“What is this?”','t-heard'],['SEE','Frame captured, question and image sent together','t-see'],['SAY','That’s a mechanical keyboard with a split layout and tented halves, usually used to reduce wrist strain.','t-say']],
-    translate:[['WAKE','Wake word detected','t-wake'],['HEARD','“Translate this sign.”','t-heard'],['SEE','Reading visible text in the frame','t-see'],['SAY','It says “Exit through the main gate. No entry after 9 PM.”','t-say']],
-    code:[['WAKE','Wake word detected','t-wake'],['HEARD','“Does this code look right?”','t-heard'],['SEE','Reading the code on screen','t-see'],['SAY','Almost. The loop runs one step too far, so change the condition to less than, not less than or equal.','t-say']],
-    mail:[['WAKE','Wake word detected','t-wake'],['HEARD','“Read my latest email.”','t-heard'],['TOOL','Calling mail tool · fetching latest unread','t-tool'],['SAY','You have one new message from abc about Thursday’s meeting. She’s asking to move it to 4 PM.','t-say']],
-    nav:[['WAKE','Wake word detected','t-wake'],['HEARD','“How long to get home?”','t-heard'],['TOOL','Calling maps tool · live traffic','t-tool'],['SAY','About twenty-two minutes with current traffic, eight kilometres. Want the route?','t-say']],
-    msg:[['WAKE','Wake word detected','t-wake'],['HEARD','“Send Mom a WhatsApp: running ten minutes late.”','t-heard'],['TOOL','Resolving contact · opening WhatsApp thread · sending','t-tool'],['SAY','Sent to Mom on WhatsApp.','t-say']],
-ig:[['WAKE','Wake word detected','t-wake'],['HEARD','“Reply to Riya on Instagram: sounds great, see you at six.”','t-heard'],['TOOL','Finding Riya’s latest Instagram DM · composing reply','t-tool'],['SAY','Replied to Riya on Instagram.','t-say']],
-call:[['WAKE','Wake word detected','t-wake'],['HEARD','“Call Dad.”','t-heard'],['TOOL','Matching “Dad” in contacts · placing call','t-tool'],['SAY','Calling Dad now.','t-say']],
-face:[['WAKE','Wake word detected','t-wake'],['HEARD','“Remember this person as Arjun.”','t-heard'],['SEE','Face detected · generating 512-dimensional embedding','t-see'],['SAY','Got it. I’ll recognise Arjun from now on.','t-say']],
-photo:[['WAKE','Wake word detected','t-wake'],['HEARD','“Take a photo.”','t-heard'],['TOOL','Local action · camera capture, no cloud round trip','t-tool'],['SAY','Done. I’ve sent it to your phone.','t-say']]
-  };
-  var stream=document.getElementById('stream'),timers=[];
-  function play(key){
-    timers.forEach(clearTimeout);timers=[];stream.innerHTML='';
-    scenes[key].forEach(function(row,i){
-      timers.push(setTimeout(function(){
-        var d=document.createElement('div');d.className='ev';
-        var tag=document.createElement('div');tag.className='tag '+row[2];tag.textContent=row[0];
-        var msg=document.createElement('div');msg.className='msg'+(row[0]==='SAY'?' say':'');msg.textContent=row[1];
-        d.appendChild(tag);d.appendChild(msg);stream.appendChild(d);
-      },i*650));
-    });
-  }
-  var chips=document.querySelectorAll('.chip');
-  chips.forEach(function(c){
-    c.addEventListener('click',function(){
-      chips.forEach(function(x){x.classList.toggle('active',x===c)});
-      play(c.dataset.s);
-    });
-  });
-  play('identify');
-})();
-</script>
-<script src="aspire-upgrade.js"></script>
-</body>
-</html>
