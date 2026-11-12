@@ -198,6 +198,7 @@ h1{font-size:clamp(30px,4.4vw,54px);letter-spacing:-.045em;line-height:1.06;max-
 .cap p{font-size:14.5px;line-height:1.6;margin:0}
 .cap.wide{grid-column:span 2}
 .cap.tall{grid-row:span 2}
+.cap.full{grid-column:span 4}
 .cap.hero-cap{background:linear-gradient(150deg,rgba(122,167,255,.14),var(--surface) 55%)}
 .cap.hero-cap h3{font-size:30px;letter-spacing:-.04em}
 .cap.hero-cap p{font-size:16px}
@@ -304,7 +305,7 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
 
 @media(max-width:980px){
   .bento{grid-template-columns:repeat(2,1fr)}
-  .cap.wide{grid-column:span 2}.cap.tall{grid-row:auto}
+  .cap.wide,.cap.full{grid-column:span 2}.cap.tall{grid-row:auto}
   .changes{grid-template-columns:repeat(2,1fr)}
   .perf-grid,.duo,.story-grid,.panel-grid{grid-template-columns:1fr}
   .story-grid{gap:30px}
@@ -318,7 +319,7 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
   .navlinks{display:none}
   .hero-stats{grid-template-columns:repeat(2,1fr)}
   .bento,.changes,.techgrid{grid-template-columns:1fr}
-  .cap.wide{grid-column:auto}
+  .cap.wide,.cap.full{grid-column:auto}
   .perf-card{padding:28px}
   .ev{grid-template-columns:1fr;gap:2px}
   .stream{padding:24px}
@@ -609,20 +610,21 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
         <p>Analyses scene details, translates text, and answers visual questions about whatever you're looking at.</p>
         <div class="mini-reticle"><i></i><span>subject</span></div>
       </div>
-      <div class="cap reveal d1"><span class="tg">02 · NAVIGATE</span><h3>Live Navigation</h3><p>Real-time traffic ETAs, distances and route summaries from Google Maps, without looking at a screen.</p></div>
-      <div class="cap reveal d2"><span class="tg">03 · REMEMBER</span><h3>Memories</h3><p>Saves facts, reminders and notes on command, and fetches them whenever you ask.</p></div>
-      <div class="cap reveal d1"><span class="tg">04 · MAIL</span><h3>Mail Assistant</h3><p>Reads your latest unread emails, parses senders and subjects, and sends replies hands-free.</p></div>
-      <div class="cap reveal d2"><span class="tg">05 · CALENDAR</span><h3>Calendar</h3><p>Checks your schedule, summarises your day and creates events from natural speech.</p></div>
-      <div class="cap wide reveal"><span class="tg">06 · SEARCH</span><h3>Live Web Search</h3><p>Queries the live internet for up-to-date facts, current events, sports scores and anything that changed since a model was trained.</p></div>
-      <div class="cap reveal d1"><span class="tg">07 · MUSIC</span><h3>Spotify Control</h3><p>Play, pause, skip, see what's playing, shuffle and adjust volume.</p></div>
-      <div class="cap reveal d2"><span class="tg">08 · WEATHER</span><h3>Weather &amp; AQI</h3><p>Live weather, Air Quality Index safety levels and seasonal pollen forecasts.</p></div>
-      <div class="cap reveal d1"><span class="tg">09 · FILES</span><h3>Google Drive Search</h3><p>Finds your cloud documents by name and reads their contents aloud.</p></div>
-      <div class="cap reveal d2"><span class="tg">10 · CAPTURE</span><h3>Vision &amp; Telegram</h3><p>Capture photos from the glasses and push images or translations straight to your phone.</p></div>
-      <div class="cap reveal d3"><span class="tg">11 · NEWS</span><h3>Top Headlines</h3><p>Breaking global headlines and top stories across categories, whenever you want a briefing.</p></div>
-<div class="cap reveal"><span class="tg">12 · MESSAGES</span><h3>WhatsApp &amp; SMS</h3><p>Say who and what, and Aspire finds the contact, composes the message and sends it in about two seconds.</p></div>
-<div class="cap reveal d1"><span class="tg">13 · INSTAGRAM</span><h3>Instagram DMs</h3><p>Send new Instagram DMs or reply to an existing conversation, hands-free.</p></div>
-<div class="cap reveal d2"><span class="tg">14 · CALLS</span><h3>Phone Calls</h3><p>“Call Dad.” Aspire matches the contact and starts the call without you touching your phone.</p></div>
-<div class="cap wide reveal d3"><span class="tg">15 · FACE SENSE</span><h3>Face Sense</h3><p>Recognises and remembers familiar people using 512-dimensional facial embeddings, with a reported 96% recognition accuracy, and links them to personalised context.</p></div>
+      <div class="cap reveal"><span class="tg">02 · MESSAGES</span><h3>WhatsApp &amp; SMS</h3><p>Say who and what, and Aspire finds the contact, composes the message and sends it in about two seconds.</p></div>
+      <div class="cap reveal d2"><span class="tg">03 · CALLS</span><h3>Phone Calls</h3><p>“Call Dad.” Aspire matches the contact and starts the call without you touching your phone.</p></div>
+      <div class="cap reveal d1"><span class="tg">04 · INSTAGRAM</span><h3>Instagram DMs</h3><p>Send new Instagram DMs or reply to an existing conversation, hands-free.</p></div>
+      <div class="cap reveal d1"><span class="tg">05 · ORDER</span><h3>E-commerce Orders</h3><p>Order groceries and food by voice from Blinkit, Zepto, Zomato and more. Say what you want and Aspire builds the cart and places the order.</p></div>
+      <div class="cap reveal"><span class="tg">06 · NAVIGATE</span><h3>Live Navigation</h3><p>Real-time turn-by-turn directions spoken in your ear, plus traffic ETAs, distances and route summaries from Google Maps, without looking at a screen.</p></div>
+      <div class="cap reveal d2"><span class="tg">07 · REMEMBER</span><h3>Memories</h3><p>Saves facts, reminders and notes on command, and fetches them whenever you ask.</p></div>
+      <div class="cap reveal"><span class="tg">08 · MAIL</span><h3>Mail Assistant</h3><p>Reads your latest unread emails, parses senders and subjects, and sends replies hands-free.</p></div>
+      <div class="cap reveal"><span class="tg">09 · CALENDAR</span><h3>Calendar</h3><p>Checks your schedule, summarises your day and creates events from natural speech.</p></div>
+      <div class="cap wide reveal"><span class="tg">10 · SEARCH</span><h3>Live Web Search</h3><p>Queries the live internet for up-to-date facts, current events, sports scores and anything that changed since a model was trained.</p></div>
+      <div class="cap reveal d1"><span class="tg">11 · MUSIC</span><h3>Spotify Control</h3><p>Play, pause, skip, see what's playing, shuffle and adjust volume.</p></div>
+      <div class="cap reveal d2"><span class="tg">12 · WEATHER</span><h3>Weather &amp; AQI</h3><p>Live weather, Air Quality Index safety levels and seasonal pollen forecasts.</p></div>
+      <div class="cap wide reveal"><span class="tg">13 · FILES</span><h3>Google Drive Search</h3><p>Finds your cloud documents by name and reads their contents aloud.</p></div>
+      <div class="cap wide reveal"><span class="tg">14 · CAPTURE</span><h3>Vision &amp; Telegram</h3><p>Capture photos from the glasses and push images or translations straight to your phone.</p></div>
+      <div class="cap wide full reveal"><span class="tg">15 · NEWS</span><h3>Top Headlines</h3><p>Breaking global headlines and top stories across categories, whenever you want a briefing.</p></div>
+      <div class="cap wide reveal"><span class="tg">16 · FACE SENSE</span><h3>Face Sense</h3><p>Recognises and remembers familiar people using 512-dimensional facial embeddings, with a reported 96% recognition accuracy, and links them to personalised context.</p></div>
     </div>
   </div>
 </section>

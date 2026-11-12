@@ -113,26 +113,28 @@ ward:'<path d="M21 12a8 8 0 01-11.5 7.2L4 20l1.2-4.4A8 8 0 1121 12z"/><path d="M
 msg:'<path d="M21 12a8 8 0 01-11.5 7.2L4 20l1.2-4.4A8 8 0 1121 12z"/><path d="M8.5 11h7M8.5 14h4"/>',
 ig:'<rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r=".9" fill="#fff"/>',
 phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A15 15 0 013 6a2 2 0 012-2z"/>',
+cart:'<path d="M3 4h2.5l2.2 10.2a1 1 0 001 .8h8.6a1 1 0 001-.8L20 8H6.2"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="17" cy="16.6" r="0"/><circle cx="17" cy="19" r="1.4"/>',
 face:'<path d="M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3"/><path d="M9 10v1M15 10v1M9.5 15c1.5 1.3 3.5 1.3 5 0"/>'};
 
-/* capabilities: 16 cards with app icons */
+/* capabilities: 17 cards with app icons */
 var caps=[
 ['vision','01 · VISION','ASPIRE Vision','Analyses scene details, translates text, and answers visual questions about whatever you’re looking at.','#6d8dff','#4f46e5','wide tall hero-cap','<div class="mini-reticle"><i></i><span>subject</span></div>'],
-['nav','02 · NAVIGATE','Live Navigation','Real-time traffic ETAs, distances and route summaries from Google Maps, without looking at a screen.','#2dd4bf','#0f766e'],
-['msg','03 · MESSAGES','WhatsApp &amp; SMS','Say who and what. Aspire finds the contact, writes the message and sends it in about two seconds.','#4ade80','#128c7e','','<div class="mini-chat"><i>Where are you?</i><i class="out">Running ten minutes late.</i></div>',1],
-['phone','04 · CALLS','Phone Calls','“Call Dad.” Aspire matches the contact and starts the call without you touching your phone.','#38bdf8','#0369a1','','<div class="mini-id"><span class="dot"></span><b>Calling Dad…</b><small>~2 s</small></div>',1],
-['ig','05 · INSTAGRAM','Instagram DMs','Send new Instagram DMs or reply to an existing conversation, hands-free.','#fbbf24','#d62976','','',1],
-['mem','06 · REMEMBER','Memories','Saves facts, reminders and notes on command, and fetches them whenever you ask.','#c084fc','#7e22ce'],
-['mail','07 · MAIL','Mail','Reads your latest unread emails, parses senders and subjects, and sends replies hands-free.','#60a5fa','#2563eb'],
-['cal','08 · CALENDAR','Calendar','Checks your schedule, summarises your day and creates events from natural speech.','#fb7185','#e11d48'],
-['music','09 · MUSIC','Spotify','Play, pause, skip, see what’s playing, shuffle and adjust volume.','#4ade80','#16a34a'],
-['web','10 · SEARCH','Live Web Search','Queries the live internet for up-to-date facts, current events, sports scores and anything that changed since a model was trained.','#22d3ee','#0e7490','wide'],
-['wx','11 · WEATHER','Weather &amp; AQI','Live weather, Air Quality Index safety levels and seasonal pollen forecasts.','#facc15','#f97316'],
-['drive','12 · FILES','Google Drive Search','Finds your cloud documents by name and reads their contents aloud.','#a3e635','#4d7c0f'],
-['ward','13 · SOCIAL','Wardbook','Run your social life by voice. Post updates, send DMs, share photos from the glasses, read your messages and reply, all hands-free.','#ff6b9a','#7c3aed','wide','<div class="mini-chat"><i>Anhad Jaj: Free on Saturday?</i><i class="out">Yes, Saturday works.</i></div>',1],
-['face','14 · PEOPLE','Face Sense','Recognises and remembers familiar people. Say “remember this person” and it stores a 512-dimensional facial embedding, then identifies them later with a reported 96% accuracy, along with their name, hobbies and context.','#2dd4bf','#6366f1','wide','<div class="mini-id"><span class="dot"></span><b>Anhad Jaj</b><small>Programmer · Athlete</small></div>',1],
-['cam','15 · CAPTURE','Vision &amp; Telegram','Capture photos from the glasses and push images or translations straight to your phone.','#f472b6','#be185d','wide'],
-['news','16 · NEWS','Top Headlines','Breaking global headlines and top stories across categories, whenever you want a briefing.','#94a3b8','#475569','wide']
+['msg','02 · MESSAGES','WhatsApp &amp; SMS','Say who and what. Aspire finds the contact, writes the message and sends it in about two seconds.','#4ade80','#128c7e','','<div class="mini-chat"><i>Where are you?</i><i class="out">Running ten minutes late.</i></div>',1],
+['phone','03 · CALLS','Phone Calls','“Call Dad.” Aspire matches the contact and starts the call without you touching your phone.','#38bdf8','#0369a1','','<div class="mini-id"><span class="dot"></span><b>Calling Dad…</b><small>~2 s</small></div>',1],
+['ig','04 · INSTAGRAM','Instagram DMs','Send new Instagram DMs or reply to an existing conversation, hands-free.','#fbbf24','#d62976','','',1],
+['cart','05 · ORDER','E-commerce Orders','Order groceries and food by voice from Blinkit, Zepto, Zomato and more. Say what you want and Aspire builds the cart and places the order.','#fb923c','#e11d48','','<div class="mini-chat"><i>Order milk and bread on Blinkit</i><i class="out">Added. Placing your order.</i></div>',1],
+['nav','06 · NAVIGATE','Live Navigation','Real-time turn-by-turn directions spoken in your ear, plus traffic ETAs, distances and route summaries from Google Maps, without looking at a screen.','#2dd4bf','#0f766e',''],
+['mem','07 · REMEMBER','Memories','Saves facts, reminders and notes on command, and fetches them whenever you ask.','#c084fc','#7e22ce'],
+['mail','08 · MAIL','Mail','Reads your latest unread emails, parses senders and subjects, and sends replies hands-free.','#60a5fa','#2563eb',''],
+['cal','09 · CALENDAR','Calendar','Checks your schedule, summarises your day and creates events from natural speech.','#fb7185','#e11d48',''],
+['music','10 · MUSIC','Spotify','Play, pause, skip, see what’s playing, shuffle and adjust volume.','#4ade80','#16a34a'],
+['web','11 · SEARCH','Live Web Search','Queries the live internet for up-to-date facts, current events, sports scores and anything that changed since a model was trained.','#22d3ee','#0e7490','wide'],
+['wx','12 · WEATHER','Weather &amp; AQI','Live weather, Air Quality Index safety levels and seasonal pollen forecasts.','#facc15','#f97316'],
+['drive','13 · FILES','Google Drive Search','Finds your cloud documents by name and reads their contents aloud.','#a3e635','#4d7c0f','wide'],
+['ward','14 · SOCIAL','Wardbook','Run your social life by voice. Post updates, send DMs, share photos from the glasses, read your messages and reply, all hands-free.','#ff6b9a','#7c3aed','wide','<div class="mini-chat"><i>Anhad Jaj: Free on Saturday?</i><i class="out">Yes, Saturday works.</i></div>',1],
+['face','15 · PEOPLE','Face Sense','Recognises and remembers familiar people. Say “remember this person” and it stores a 512-dimensional facial embedding, then identifies them later with a reported 96% accuracy, along with their name, hobbies and context.','#2dd4bf','#6366f1','wide','<div class="mini-id"><span class="dot"></span><b>Anhad Jaj</b><small>Programmer · Athlete</small></div>',1],
+['cam','16 · CAPTURE','Vision &amp; Telegram','Capture photos from the glasses and push images or translations straight to your phone.','#f472b6','#be185d','wide'],
+['news','17 · NEWS','Top Headlines','Breaking global headlines and top stories across categories, whenever you want a briefing.','#94a3b8','#475569','wide full']
 ];
 var bento=$('.bento');
 if(bento){bento.innerHTML=caps.map(function(c,i){
