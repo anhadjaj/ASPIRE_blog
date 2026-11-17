@@ -656,14 +656,14 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
         <div class="big"><span class="num grad">~2×</span><span class="unit">4–5s → 2–3s</span></div>
         <div class="bars" data-bars>
           <div class="bar-row"><div class="lbl"><span>V1</span><b>4–5 s</b></div><div class="track"><div class="fill v1" data-w="33.3"></div></div></div>
-          <div class="bar-row"><div class="lbl"><span>V2</span><b>2–3 s</b></div><div class="track"><div class="fill v2" data-w="20"></div></div></div>
+          <div class="bar-row"><div class="lbl"><span>V3</span><b>2–3 s</b></div><div class="track"><div class="fill v3" data-w="20"></div></div></div>
         </div>
         <div class="axis"><span>0s</span><span>5s</span><span>10s</span><span>15s</span></div>
       </div>
     </div>
     <p class="perf-note">Both charts share one scale so the difference is honest. Bars show the slower end of each range. Figures are approximate, measured on the working prototype.</p>
 
-    <h3 class="h-small reveal">What changed between V1 and V2.</h3>
+    <h3 class="h-small reveal">What changed between V1 and V3.</h3>
     <div class="changes">
       <div class="change reveal"><span class="n">01</span><h4>Connections kept warm</h4><p>V1 paid the cost of opening a fresh connection on every request. V2 reuses live connections and warms them up ahead of time, so the first byte doesn't wait on a handshake.</p></div>
       <div class="change reveal d1"><span class="n">02</span><h4>Speak first, log later</h4><p>Saving photos and conversation history used to sit in the critical path. Now ASPIRE answers you first and does the bookkeeping afterwards.</p></div>
@@ -808,7 +808,6 @@ footer{border-top:1px solid var(--line);padding:48px 0;color:var(--muted);font-s
       <div class="spec-row"><span>COMMUNICATION</span><span>WhatsApp, SMS, Instagram DMs and phone calls by voice (~2 s)</span></div>
 <div class="spec-row"><span>FACE SENSE</span><span>512-dimensional facial embeddings · 96% reported recognition accuracy</span></div>
 <div class="spec-row"><span>LATENCY (V3)</span><span>~4–5 s vision queries · ~3 s voice queries · ~2 s messages and calls</span></div>
-<div class="spec-row"><span>LATENCY (V2)</span><span>~3–4 s vision queries · ~2–3 s voice-only queries</span></div>
     </div>
   </div>
 </section>
